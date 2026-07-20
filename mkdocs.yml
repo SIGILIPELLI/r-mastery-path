@@ -1,0 +1,100 @@
+site_name: R Mastery Path
+site_description: A structured, module-wise R training program from entry level to master level, focused on data analysis and statistics.
+site_url: https://sigilipelli.github.io/r-mastery-path/
+repo_url: https://github.com/SIGILIPELLI/r-mastery-path
+repo_name: r-mastery-path
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Privacy Policy: privacy.md
+  - "Level 1 · Entry":
+      - Overview: level-1/index.md
+      - "01 · Setup & First Script": level-1/01-setup.md
+      - "02 · Variables & Types": level-1/02-variables-types.md
+      - "03 · Control Flow": level-1/03-control-flow.md
+      - "04 · Functions": level-1/04-functions.md
+      - "05 · Vectors & Basic Data Structures": level-1/05-vectors-data-structures.md
+      - "06 · Data Frames Basics": level-1/06-data-frames-basics.md
+      - "07 · Reading Data": level-1/07-reading-data.md
+      - "08 · Basic Plotting": level-1/08-basic-plotting.md
+      - "09 · Packages": level-1/09-packages.md
+      - "10 · Project — Data Analysis Script": level-1/10-project-data-analysis.md
+  - "Level 2 · Intermediate":
+      - Overview: level-2/index.md
+      - "01 · Data Frames Deep Dive (dplyr)": level-2/01-dplyr-deep-dive.md
+      - "02 · Data Cleaning": level-2/02-data-cleaning.md
+      - "03 · Apply Family Functions": level-2/03-apply-family-functions.md
+      - "04 · ggplot2 Basics": level-2/04-ggplot2-basics.md
+      - "05 · Working with Strings (stringr)": level-2/05-strings-stringr.md
+      - "06 · Statistical Basics": level-2/06-statistical-basics.md
+      - "07 · Writing Functions & Package Structure": level-2/07-functions-package-structure.md
+      - "08 · Testing with testthat": level-2/08-testing-testthat.md
+      - "09 · Working with Dates (lubridate)": level-2/09-dates-lubridate.md
+      - "10 · Project — Data Cleaning & Reporting Pipeline": level-2/10-project-cleaning-pipeline.md
+  - "Level 3 · Advanced":
+      - Overview: level-3/index.md
+      - "01 · Advanced dplyr/tidyr": level-3/01-advanced-dplyr-tidyr.md
+      - "02 · Advanced ggplot2": level-3/02-advanced-ggplot2.md
+      - "03 · Statistical Modeling (lm/glm)": level-3/03-statistical-modeling.md
+      - "04 · R Markdown for Reports": level-3/04-r-markdown-reports.md
+      - "05 · Shiny Basics": level-3/05-shiny-basics.md
+      - "06 · Performance (Vectorization vs Loops)": level-3/06-performance-vectorization.md
+      - "07 · Package Development Basics": level-3/07-package-development-basics.md
+      - "08 · Working with APIs (httr)": level-3/08-apis-httr.md
+      - "09 · Testing Advanced": level-3/09-testing-advanced.md
+      - "10 · Project — Interactive Shiny Dashboard": level-3/10-project-shiny-dashboard.md
+  - "Level 4 · Master":
+      - Overview: level-4/index.md
+      - "01 · Advanced Statistical Methods": level-4/01-advanced-statistical-methods.md
+      - "02 · Production R with plumber": level-4/02-production-plumber.md
+      - "03 · Shiny at Scale (Modules)": level-4/03-shiny-at-scale.md
+      - "04 · Testing at Scale & CI": level-4/04-testing-at-scale-ci.md
+      - "05 · Performance Optimization (Rcpp Intro)": level-4/05-performance-rcpp.md
+      - "06 · Reproducible Research Practices": level-4/06-reproducible-research.md
+      - "07 · Data Visualization at Scale": level-4/07-data-viz-at-scale.md
+      - "08 · Working with Big Data (data.table)": level-4/08-big-data-datatable.md
+      - "09 · Package Publishing (CRAN Basics)": level-4/09-package-publishing-cran.md
+      - "10 · Capstone Project": level-4/10-capstone-project.md
