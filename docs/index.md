@@ -1,3 +1,8 @@
+---
+title: "Learn R Programming Free: Data Science Course"
+description: "Free R programming course from beginner to advanced -- hands-on data analysis lessons and real capstone projects. Part of a 37-course free learning library."
+---
+
 # R Mastery Path
 
 A structured, module-wise R training program that takes you from your first
