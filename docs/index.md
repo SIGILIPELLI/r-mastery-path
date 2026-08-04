@@ -15,7 +15,7 @@ of each level.
 | Level | Focus | Modules |
 |-------|-------|---------|
 | [Level 1 · Entry](level-1/index.md) | Language foundations, vectors, data frames, plotting | 9 topics + 1 project |
-| Level 2 · Intermediate (coming soon) | dplyr, data cleaning, ggplot2, statistics basics | 9 topics + 1 project |
+| [Level 2 · Intermediate](level-2/index.md) | dplyr, data cleaning, ggplot2, statistics basics | 9 topics + 1 project |
 | Level 3 · Advanced (coming soon) | Statistical modeling, R Markdown, Shiny, APIs | 9 topics + 1 project |
 | Level 4 · Master (coming soon) | Production R, Shiny at scale, big data, CRAN | 9 topics + 1 capstone |
 

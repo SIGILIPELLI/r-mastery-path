@@ -62,8 +62,19 @@ nav:
       - "08 · Basic Plotting": level-1/08-basic-plotting.md
       - "09 · Packages": level-1/09-packages.md
       - "10 · Project — Data Analysis Script": level-1/10-project-data-analysis.md
+  - "Level 2 · Intermediate":
+      - Overview: level-2/index.md
+      - "01 · Data Frames Deep Dive (dplyr)": level-2/01-dplyr-deep-dive.md
+      - "02 · Data Cleaning": level-2/02-data-cleaning.md
+      - "03 · Apply Family Functions": level-2/03-apply-family-functions.md
+      - "04 · ggplot2 Basics": level-2/04-ggplot2-basics.md
+      - "05 · Working with Strings (stringr)": level-2/05-strings-stringr.md
+      - "06 · Statistical Basics": level-2/06-statistical-basics.md
+      - "07 · Writing Functions & Package Structure": level-2/07-functions-package-structure.md
+      - "08 · Testing with testthat": level-2/08-testing-testthat.md
+      - "09 · Working with Dates (lubridate)": level-2/09-dates-lubridate.md
+      - "10 · Project — Data Cleaning & Reporting Pipeline": level-2/10-project-cleaning-pipeline.md
 # --- auto-pruned stub levels (see AdSense low-value-content fix) ---
 exclude_docs: |
-  level-2/*.md
   level-3/*.md
   level-4/*.md
