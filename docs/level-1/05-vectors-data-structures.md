@@ -177,6 +177,26 @@ class(person[["age"]])
 | Get list element (unwrapped) | `lst[["a"]]` or `lst$a` |
 | Get list element (still a list) | `lst["a"]` |
 
+## How It Actually Works
+
+An R vector is a contiguous block of memory holding elements of one type,
+plus a header carrying the length and, for named/typed data, an
+`attributes` list (that's how a plain "atomic vector" becomes a `factor` or
+gains `names` — attributes decorate the same underlying memory rather than
+wrapping it in a new structure). Because storage is contiguous, `x[3]`
+is O(1) pointer arithmetic, and arithmetic like `x * 2` is a tight C loop
+that walks the array once — no per-element interpreter overhead, which is
+the real reason vectors outperform loops.
+
+**Recycling** — R silently repeating the shorter vector when you combine
+two of different lengths (`c(1,2,3,4) + c(1,2)` → `c(2,4,4,6)`) — isn't a
+convenience feature layered on top; it's baked into the C arithmetic
+routines themselves: they compute the output length as the max of the two
+input lengths and index into each input modulo its own length as they
+loop. A `list()`, by contrast, doesn't store elements contiguously by
+value — it's a vector of *pointers* to arbitrary SEXPs, which is exactly
+why a list can mix types and hold other vectors/lists without coercion.
+
 ## Exercise
 
 Create a named vector `inventory` mapping three item names to their integer

@@ -136,6 +136,26 @@ more readably in [Level 2](../level-2/01-dplyr-deep-dive.md).
 | Sort | `df[order(df$col), ]` |
 | Group + summarize | `tapply(df$value, df$group, mean)` |
 
+## How It Actually Works
+
+A data frame is not a 2-D matrix under the hood — it's a `list` of
+equal-length vectors (one per column) with a `class` attribute of
+`"data.frame"` and a `row.names` attribute, plus S3 methods that make it
+*print* and *index* like a table. `df$col` is really `` `[[`(df, "col") ``
+returning that column's underlying vector directly (no copy). `df[1, ]`,
+by contrast, goes through the `[.data.frame` S3 method, which has to
+rebuild a whole new (one-row) list from scratch — this is one reason
+row-wise operations on data frames are much slower than column-wise ones:
+column access is native list indexing, row access requires reconstructing
+a mini data frame every time.
+
+Because each column is an independent vector, mixed types across columns
+are free (numeric here, character there) but a single column is still a
+homogeneous atomic vector — assigning a character into a numeric column
+triggers the same coercion rules as any other vector, silently converting
+the whole column. `str()` works by walking this list-of-vectors structure
+and reporting each element's class and a peek at its values.
+
 ## Exercise
 
 Create a data frame `products` with columns `name` (character), `price`

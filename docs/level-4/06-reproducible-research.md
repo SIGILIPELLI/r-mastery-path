@@ -181,6 +181,26 @@ each project's `renv/library/` is its own full copy).
 | Install a package into the project library | `renv::install("pkgname")` |
 | See where a package is used in the project | `renv::dependencies()` |
 
+## How It Actually Works
+
+`renv::init()` doesn't install packages into some private universal
+location — it creates a **project-local library** (a `renv/library/`
+folder) and rewrites `.libPaths()` for that project (via a generated
+`.Rprofile` that runs automatically every time R starts in that
+directory) so package resolution never falls back to your regular
+user-wide library. `renv::snapshot()` then records every package actually
+*used* in your project (detected by static analysis of your `library()`/
+`::` calls across your R files) along with its exact installed version and
+source (CRAN, GitHub, ...) into `renv.lock`, a JSON manifest.
+
+`renv::restore()` reads that lockfile and reconstructs the identical
+project library on another machine — for CRAN packages it fetches the
+exact archived version from CRAN's version archive rather than "whatever
+is current," which is precisely how it produces bit-for-bit reproducible
+dependency environments regardless of when or where it's run, as opposed
+to a plain `install.packages()` which always resolves to whatever the
+CRAN mirror currently serves as latest.
+
 ## Exercise
 
 1. Create a new project directory, run `renv::init(bare = TRUE)`, write

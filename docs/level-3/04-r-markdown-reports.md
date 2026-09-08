@@ -134,6 +134,26 @@ knitr::kable(orders, caption = "Orders")
 | Render a well-formatted table | `knitr::kable(df)` |
 | Inline a computed value in a sentence | `` `r expression` `` |
 
+## How It Actually Works
+
+Knitting an `.Rmd`/`.qmd` file is a two-stage pipeline, not one program:
+first **knitr** parses the document, finds each fenced code chunk, and
+evaluates it in a persistent R session (chunk options like `echo`/
+`eval`/`cache` control exactly how each chunk's code and output get woven
+back into the surrounding text) — producing a plain Markdown file with
+code/output already substituted in. Second, **Pandoc** (a separate
+document-conversion binary R Markdown bundles and calls out to) takes that
+intermediate Markdown and converts it into HTML, PDF (via a LaTeX engine),
+or Word, using its own internal document AST and format-specific writers.
+
+`cache = TRUE` on a chunk works by hashing the chunk's code text plus its
+declared dependencies; if that hash matches a previous run's cached hash,
+knitr loads the previously-saved result objects from disk instead of
+re-executing the code — which is why changing so much as a comment inside
+a cached chunk forces a re-run (the hash changes) while an unrelated
+earlier chunk's edit doesn't invalidate a later chunk's cache unless you've
+declared a dependency between them.
+
 ## Exercise
 
 1. Write an `.Rmd` file with a `params` block for a `min_qty` threshold,

@@ -133,6 +133,27 @@ first. [Level 2](../level-2/04-ggplot2-basics.md) introduces **ggplot2**, the
 more expressive and widely used plotting package for anything beyond a quick
 look at your data.
 
+## How It Actually Works
+
+Base R plotting (`plot()`, `hist()`, `abline()`, ...) is **imperative and
+stateful**: each call draws directly onto the currently active graphics
+device (a bitmap or vector canvas R maintains internally) and mutates it in
+place. `plot()` doesn't just draw points — it resets the device, computes
+axis ranges from your data, and pushes a new "plotting region" onto R's
+internal graphics state stack. Every subsequent call like `abline()` or
+`points()` you make afterward doesn't redraw the whole chart; it layers
+more ink onto the *same* device using the axis coordinate system that
+`plot()` already established — which is exactly why call order matters and
+why you can't easily "undo" one layer without restarting from `plot()`.
+
+Under the hood, each high-level plotting function ultimately calls into R's
+**grid/graphics engine** (a C-level device driver interface), which
+translates your plotting calls into device-specific drawing operations —
+pixel writes for PNG, vector path commands for PDF/SVG. This is also why
+resizing an RStudio plot pane after the fact can shift text and point
+sizes: the device is re-rendered at the new dimensions from the same
+recorded calls, not simply scaled as an image.
+
 ## Exercise
 
 Using the `exam_scores` vector generated above (`rnorm(200, mean = 75, sd =

@@ -170,6 +170,28 @@ something" from a mystery into an exact line number.
 | Run all tests in a package | `devtools::test()` |
 | Run tests from the CLI | `testthat::test_dir("tests/testthat")` |
 
+## How It Actually Works
+
+`testthat::test_that()` blocks aren't just grouped assertions — each block
+runs inside its **own child environment**, and each `expect_*()` call
+wraps your expression in `tryCatch()`-style condition handling: instead of
+letting a failed comparison throw an uncaught error that halts the whole
+run, `testthat` signals a custom `expectation` **condition** object (R's
+condition system — the same mechanism behind `warning()` and `stop()`,
+which is a structured signal that propagates up the call stack until
+something catches it) that the test runner catches, records, and then
+resumes execution from, so one failing `expect_equal()` doesn't stop the
+rest of the test file from running.
+
+`expect_equal()` specifically doesn't use `==` — it calls `all.equal()`,
+which does a numeric comparison within floating-point tolerance (default
+around 1.5e-8) rather than exact bit equality, because two mathematically
+identical R computations can differ in their last few bits due to
+floating-point rounding from different operation orderings. `testthat`
+collects every expectation's pass/fail condition across a whole test file
+into a results object, which `devtools::test()`/`R CMD check` then
+aggregates into the pass/fail/warning summary you see at the end.
+
 ## Exercise
 
 Write `test_that()` blocks for the `safe_ratio()` function from

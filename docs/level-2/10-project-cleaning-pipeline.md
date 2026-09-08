@@ -263,6 +263,28 @@ testthat::test_dir("tests/testthat")
 [ FAIL 0 | WARN 0 | SKIP 0 | PASS 14 ]
 ```
 
+## How It Actually Works
+
+Structuring a project as small functions in `R/pipeline.R` rather than one
+long script isn't just style — it changes how R's evaluator handles
+variable scope: each function gets its own execution environment (as
+covered in Module 4), so intermediate cleaning variables inside
+`clean_data()` can't leak into or collide with variables inside
+`summarize_data()`, whereas a flat script shares one global environment
+for everything, where a stray reused variable name silently corrupts a
+later step.
+
+`testthat::test_that()` tests that call your pipeline functions directly
+(rather than sourcing the whole script) work because sourcing `R/pipeline.R`
+only *defines* functions — it doesn't execute any pipeline logic — so the
+test file can load just the functions and feed them small synthetic inputs
+without needing the real `sales.csv` or any file I/O at all. This
+separation of "pure functions that transform data" from "the script that
+wires them to real files" is what makes each stage independently testable:
+a function that takes a data frame and returns a data frame has no hidden
+dependency on the filesystem, so `testthat` can call it with a two-row
+fixture and check the exact output deterministically.
+
 ## Stretch goals
 
 - Add a `discount_pct` column to `orders_raw` and thread it through

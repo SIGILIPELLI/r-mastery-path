@@ -210,6 +210,29 @@ body fails the same way.
 | Operate one row at a time | `rowwise()` |
 | Use a string as a column name inside a verb | `.data[[string_var]]` |
 
+## How It Actually Works
+
+`tidyr::pivot_longer()`/`pivot_wider()` reshape data by rebuilding the
+underlying list-of-columns structure rather than moving values in place:
+`pivot_longer()` computes, for every output row, which combination of
+(original row, selected column) it corresponds to, then constructs new
+vectors by indexing the original columns in that computed order — it's
+conceptually a big `merge`/`join`-like index computation, not a literal
+in-place transpose. This is also why pivoting on data with mismatched
+types across the pivoted columns forces coercion into one common type in
+the output's single "value" column, using the same coercion hierarchy
+covered in Module 2.
+
+`dplyr::group_by()` followed by a summary doesn't loop over groups one at a
+time in R code — it computes a single grouping index (which rows belong to
+which group, via hashing the grouping columns) once, then dispatches the
+summary computation across all groups using vectorized or C-level grouped
+aggregation where possible. `across()` works by taking your column
+selection, resolving it to actual column names once via tidyselect's
+non-standard evaluation, then applying your function(s) to each resolved
+column and assembling the results back into a single data frame — it's
+sugar over what would otherwise be a manual loop plus `bind_cols()`.
+
 ## Exercise
 
 1. Build a small `orders` / `products` pair of tibbles where `products`

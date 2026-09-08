@@ -175,6 +175,29 @@ wrong.
 | Vector length in C++ | `x.size()` |
 | Benchmark alternatives | `microbenchmark::microbenchmark(a = ..., b = ..., times = n)` |
 
+## How It Actually Works
+
+`Rcpp` lets you write C++ functions callable from R by generating **glue
+code**: `cppFunction()`/`sourceCpp()` parse your C++ source, detect the
+`// [[Rcpp::export]]` marker, and generate a wrapper that converts R SEXPs
+(the same underlying representation from Module 2) into C++ types like
+`Rcpp::NumericVector` — which is really a thin C++ class wrapping a
+pointer directly into R's own memory, not a copy — compiles everything
+with your system's C++ compiler, and dynamically loads the resulting
+shared library into the running R session so the exported function becomes
+callable like any other R function.
+
+The performance win is mechanical: your loop now runs as genuinely
+compiled machine code with no R-evaluator dispatch per iteration at all
+(unlike even a vectorized R call, which still pays one dispatch to enter
+the C routine) — for tight numeric loops, that difference compounds
+across millions of iterations. But because `NumericVector` often wraps R's
+memory directly rather than copying it, mutating it in place inside C++
+can violate R's copy-on-modify guarantees if you're not careful — which is
+why Rcpp idioms favor `clone()`ing input vectors you intend to mutate,
+mirroring the exact copy-on-modify discipline R itself enforces at the
+R level.
+
 ## Exercise
 
 1. Write an Rcpp function `running_max_cpp(x)` that returns a vector

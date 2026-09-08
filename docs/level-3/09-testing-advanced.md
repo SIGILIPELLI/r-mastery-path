@@ -130,6 +130,26 @@ a test that can't always run hides the fact that coverage has a gap.
 | Skip only when a package isn't installed | `skip_if_not_installed("pkgname")` |
 | Skip only in CRAN's automated checks | `skip_on_cran()` |
 
+## How It Actually Works
+
+Mocking in `testthat` (via `local_mocked_bindings()` or the older
+`with_mock()`) works by temporarily **rebinding a name inside a package's
+namespace environment** for the duration of a test — because R resolves a
+function call by looking the name up in the calling function's enclosing
+environment chain, swapping what that name points to (even just for one
+test's scope, restored automatically afterward) makes every call to that
+function inside the code under test transparently use the mock instead,
+with no need to change the code being tested at all.
+
+Code coverage tools (`covr`) work by instrumenting your functions'
+byte-compiled or parsed expressions with tracing hooks *before* running
+your test suite — each expression gets wrapped so that executing it also
+increments a hit counter recorded against that specific line — then runs
+the full test suite once and reports which lines' counters stayed at
+zero. This is a real execution trace, not static analysis: a line can be
+syntactically reachable but still show as uncovered if no test path
+actually executes it, which is the whole point of a coverage report.
+
 ## Exercise
 
 1. Take a function that calls another function you don't want to

@@ -203,6 +203,27 @@ save you real debugging time.
 | `left_join(a, b, by = "key")` | combine two data frames on a key |
 | `n()` | row count within a group (inside summarise/mutate) |
 
+## How It Actually Works
+
+`dplyr` verbs like `filter()`, `mutate()`, and `select()` work through
+**non-standard evaluation (NSE)**: when you write `filter(df, age > 30)`,
+`age` is never evaluated as a free-standing variable in your environment —
+dplyr captures the *unevaluated expression* `age > 30` (via R's quoting
+tools, `rlang`'s quasiquotation under the hood) and evaluates it in a
+special **data mask** environment where each column of `df` is exposed as
+if it were a variable. That's the entire mechanism behind writing
+`age > 30` instead of `df$age > 30`.
+
+The pipe `%>%` (or base R's native `|>`) is not a runtime operator that
+does something clever with function calls — it's a **syntactic rewrite**
+performed at parse time (for `|>`) or by the `magrittr` package (for `%>%`):
+`df %>% filter(x) %>% mutate(y)` is transformed into the ordinary nested
+call `mutate(filter(df, x), y)` before evaluation ever happens. There's no
+special "streaming" data structure — each stage still fully materializes
+its output data frame in memory before the next stage runs, which is why
+extremely long pipe chains on huge data can use noticeably more memory
+than a single combined operation would.
+
 ## Exercise
 
 Using the `students` data frame above: find each grade's average score,

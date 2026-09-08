@@ -179,6 +179,27 @@ clean_active_users <- function(df) {
 | Load a package for testing | `devtools::load_all()` |
 | Validate a package | `devtools::check()` (wraps `R CMD check`) |
 
+## How It Actually Works
+
+An R package is not just "a folder of functions" — it's a directory with a
+specific, machine-readable structure (`DESCRIPTION`, `NAMESPACE`, `R/`,
+`man/`) that `R CMD build`/`R CMD INSTALL` parse to produce a compiled
+package: `R/*.R` files are parsed and byte-compiled (R's bytecode compiler
+translates your R source into a more compact instruction set the
+interpreter executes faster than raw parsed expressions), and the result
+is written into a package-specific namespace environment as described
+earlier.
+
+`devtools::load_all()` mimics this whole install-and-attach process without
+touching disk permanently: it parses your `R/` source fresh, builds a
+temporary namespace environment, and attaches it — which is why it's fast
+to iterate with but doesn't catch every issue a real `R CMD check` install
+would (like documentation or `NAMESPACE` export mismatches). Function
+documentation written as roxygen2 comments (`#'`) works by a separate
+static-analysis pass: roxygen2 parses those comments plus the function
+signature they precede and generates `.Rd` files in `man/`, entirely
+independent of whether the function's *code* runs correctly.
+
 ## Exercise
 
 Take the `classify_bmi()` function from

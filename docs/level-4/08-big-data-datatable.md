@@ -162,6 +162,27 @@ original order in its own column before keying.
 | Convert from data.frame | `as.data.table(df)` |
 | Convert to data.frame | `as.data.frame(dt)` |
 
+## How It Actually Works
+
+`data.table` gets its speed from **modifying data in place** rather than
+following R's default copy-on-modify semantics: `dt[, newcol := value]`
+uses the `:=` operator to add or update a column by directly mutating the
+existing object's memory (bypassing R's usual reference-counted copying
+described in Module 2), which is why `data.table` operations are
+documented as having side effects — no new object is created and returned
+the way `dplyr::mutate()` would.
+
+Its `dt[i, j, by]` syntax compiles grouped operations into optimized
+C code paths for common patterns (like grouped sums/means) rather than
+calling back into the R evaluator per group the way a naive `lapply()`
+over groups would. Keyed joins (`setkey()` then `dt1[dt2]`) work by
+**sorting** the table on the key columns once (an O(n log n) radix sort
+for the common integer/character key case) and storing that ordering, so
+subsequent joins on the same key can use binary search rather than a full
+hash join — this is why setting a key pays a one-time upfront cost that
+then makes every later join or filter on that key dramatically faster,
+trading preprocessing time for repeated-query speed.
+
 ## Exercise
 
 1. Build a 5-million-row `data.table` with an `id`, a `category`

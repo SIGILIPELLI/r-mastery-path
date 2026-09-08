@@ -126,6 +126,26 @@ summary(people)   # quick stats per column
 anyNA(people)     # TRUE if the data has any missing values at all
 ```
 
+## How It Actually Works
+
+`read.csv()` works by opening a file connection and running R's C-level
+tokenizer over it line by line: it splits each line on the separator,
+buffers the raw strings for each column, and only *after* seeing every row
+does it try to infer each column's type (numeric, integer, logical,
+character) by attempting to parse the accumulated strings — which is why
+a single stray non-numeric value anywhere in a column forces the whole
+column to fall back to `character`. This two-pass-ish behavior (collect
+then coerce) is also why huge base-R `read.csv()` calls are memory-hungry:
+the raw string buffer and the final typed columns briefly coexist.
+
+`readr::read_csv()` takes a different, faster approach: it reads a sample
+of the first ~1000 rows to *guess* column types up front (hence the column
+specification it prints), then streams the rest of the file parsing
+directly into the guessed types using compiled C++ (via Rcpp) rather than
+R-level loops — no full re-scan-and-coerce pass, and no factor conversion
+step to worry about. That's the mechanical reason it's both faster and
+more predictable on large files.
+
 ## Exercise
 
 Create a small CSV file `scores.csv` by hand (a text editor or `cat()` from

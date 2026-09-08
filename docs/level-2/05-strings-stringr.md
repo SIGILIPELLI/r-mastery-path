@@ -167,6 +167,29 @@ means "any character," not "a literal period."
 | Pad | `str_pad(x, width, pad = "0")` |
 | Match literally, not as regex | `str_detect(x, fixed("..."))` |
 
+## How It Actually Works
+
+Base R strings are stored as `character` vectors where each element points
+to an entry in R's **global string pool (CHARSXP cache)** — a hash table
+the interpreter maintains so that identical strings appearing anywhere in
+your session share one underlying memory allocation rather than being
+duplicated. This is why comparing many repeated strings is cheap: R can
+often short-circuit equality by comparing pool pointers before ever
+comparing bytes.
+
+`stringr` functions are thin, consistently-ordered (`str_*(string,
+pattern)`) wrappers around **ICU** (International Components for Unicode)
+regular-expression and string routines linked into R via the `stringi`
+package, rather than R's own base regex engine (POSIX extended or, with
+`perl = TRUE`, PCRE). That's why `stringr` handles Unicode case folding,
+locale-aware sorting, and multi-byte characters more consistently than
+base `grepl()`/`gsub()` — it's not "the same regex engine with a nicer
+API," it's a different, more complete engine underneath. Pattern matching
+itself works by compiling your regex string into a finite-state automaton
+once, then running that automaton over each input string's bytes — which
+is why using a pre-compiled pattern object over thousands of calls, where
+supported, avoids re-compiling the same regex repeatedly.
+
 ## Exercise
 
 Given `emails <- c("alice@example.com", "bob.smith@company.org",

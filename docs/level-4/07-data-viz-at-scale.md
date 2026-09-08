@@ -157,6 +157,29 @@ than sample it (Fix 2) whenever tail behavior is the point of the plot.
 | One plot per group, shared scales | `facet_wrap(~group)` |
 | Time how long a plot takes to render/save | `system.time({ ... })` |
 
+## How It Actually Works
+
+Rendering thousands to millions of points with `ggplot2` slows down
+because every geometric primitive still goes through the same
+grid-graphics grob pipeline from Module 4 — each point becomes an
+individual drawable object the graphics device has to process, and vector
+output formats (PDF/SVG) end up storing one drawing instruction per point,
+producing enormous files. Techniques like `geom_hex()`/`geom_bin2d()`
+sidestep this by first **aggregating** raw points into a coarser grid of
+bins (a single pass computing counts per bin, same mechanism as
+`dplyr::group_by()`'s hashed grouping) and drawing only that much smaller
+set of summary shapes — the visual cost becomes proportional to the number
+of bins, not the number of raw rows.
+
+Interactive/scalable alternatives (`plotly`, rendering to a raster PNG
+device instead of vector PDF for dense scatter plots) work by changing
+*where* the pixel-density cost is paid: a raster device rasterizes each
+point to actual pixels once at a fixed resolution (further points just
+overdraw the same pixel, so file size stays bounded regardless of point
+count), while `plotly` converts the ggplot object into a JSON
+specification that a JavaScript/WebGL renderer draws in the browser using
+GPU-accelerated primitives rather than R's CPU-bound graphics device.
+
 ## Exercise
 
 1. Generate a data frame of 500,000 points from two overlapping normal

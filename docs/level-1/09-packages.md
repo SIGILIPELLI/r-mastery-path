@@ -133,6 +133,26 @@ remove.packages("somepackage")    # uninstall a package
 | Update all | `update.packages()` |
 | Remove | `remove.packages("pkgname")` |
 
+## How It Actually Works
+
+`library(pkg)` doesn't "import" symbols the way Python does — it takes the
+package's already-compiled **namespace environment** (built once when the
+package was installed, via `R CMD INSTALL`, from its `NAMESPACE` file and
+`R/` source) and *attaches* it to R's **search path**, a chain of
+environments R walks when resolving a bare name like `mutate`. Attaching
+inserts the package's exported-functions environment right after the
+global environment in that chain, which is exactly why a function you
+define yourself can "mask" one from a package with the same name — your
+global environment is searched first.
+
+Each package actually has *two* environments: a **namespace** (everything
+defined in the package, exported or not) and an **exports** environment
+(just the public API), linked so that internal functions can see each
+other and the package's own private helpers even though users can't.
+`pkg::fun` bypasses the search path entirely and looks `fun` up directly in
+`pkg`'s namespace — which is why it works even for functions the package
+chose not to export via `:::`, and why it never breaks due to masking.
+
 ## Exercise
 
 Write a script that checks whether the `readr` package is installed using

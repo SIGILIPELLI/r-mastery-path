@@ -211,6 +211,29 @@ the two steps that would take this from "runs on my machine" to "runs
 the same way on any machine" — both are direct extensions of what's
 already here.
 
+## How It Actually Works
+
+Wiring together simulation, modeling, and a plumber API in one pipeline
+means each stage's output has to survive as a **serialized R object**
+between process boundaries: the fitted model from the modeling stage is
+written to disk with `saveRDS()` (which serializes the object's full
+internal representation — including, for an `lm`/`glm` object, its stored
+QR decomposition from Module 3 — into R's own binary serialization
+format), and the plumber API process, running independently, calls
+`readRDS()` to reconstruct that exact object in its own memory rather than
+refitting the model on every request.
+
+This separation matters mechanically: the plumber process never needs the
+original training data in memory at request time, only the already-fitted
+model object and a `predict()` call, which is why `predict.lm()` can score
+new data using just the fitted coefficients and QR factor stored inside
+the serialized object — no re-solving of the original least-squares system
+is needed per request. The "how the pieces connect" boundary in this
+project is exactly the boundary between R-object serialization
+(`saveRDS`/`readRDS`) on one side and HTTP/JSON serialization (via
+`jsonlite`, as in Module 8) on the other — two entirely different encoding
+mechanisms bridging the pipeline's stages.
+
 ## Stretch goals
 
 1. Replace `generate_sales_data()` with a real CSV or database read, and

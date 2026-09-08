@@ -163,6 +163,27 @@ next case's value — a concise way to group several inputs under one result.
 | Classify by threshold | `for` loop with `if`/`else` per element | `ifelse(x >= t, "high", "low")` |
 | Sum all elements | `total <- 0; for (v in x) total <- total + v` | `sum(x)` |
 
+## How It Actually Works
+
+`if`, `for`, and `while` in R are not special syntax bolted onto an
+otherwise-functional language — they are themselves **functions** (you can
+literally call `` `if`(TRUE, "a", "b") `` and get `"a"` back). The parser
+turns your `if (cond) expr1 else expr2` into a call object
+`` `if`(cond, expr1, expr2) ``, and evaluating it dispatches to a C-level
+primitive that checks whether `cond` reduces to a single `TRUE`/`FALSE`
+(anything else — a vector of length > 1, `NA`, `NULL` — is an error in
+current R, once just a warning).
+
+`for` loops in R are famously slower than vectorized alternatives because
+each iteration re-evaluates the loop body through the full R interpreter
+loop — parse tree walk, environment lookup, function dispatch — for every
+single element, with no compiled specialization. A vectorized call like
+`x + 1` instead drops straight into a single C loop that iterates over the
+whole vector without going back through the R evaluator between elements.
+That's the mechanical reason "vectorize instead of loop" is R's most
+repeated performance advice: it's not style, it's the difference between
+one interpreter dispatch and thousands.
+
 ## Exercise
 
 Write a script that loops over the vector `nums <- c(4, 15, 8, 23, 42, 7)`

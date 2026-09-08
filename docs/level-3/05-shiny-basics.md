@@ -152,6 +152,28 @@ move for no benefit.
 | Test server logic headlessly | `testServer(server, {...})` |
 | Simulate a widget change in a test | `session$setInputs(id = value)` |
 
+## How It Actually Works
+
+A Shiny app is fundamentally a **reactive graph**, not a request/response
+web app in the traditional sense: `input$x` is a reactive value, and any
+`render*()`/`reactive()` expression that reads it becomes a *dependent*
+node automatically — Shiny builds this dependency graph by tracing which
+reactive values each expression touches the first time it runs. When
+`input$x` changes, Shiny doesn't re-run your whole server function; it
+walks the dependency graph, **invalidates** only the nodes that read `x`
+(directly or transitively), and re-executes just those, in dependency
+order, via an event loop that flushes all pending invalidations after each
+input change.
+
+This is why wrapping expensive shared computation in `reactive()` rather
+than a plain function matters: `reactive()` caches its last computed value
+and only re-executes when one of *its own* dependencies actually changes,
+so multiple outputs reading the same `reactive()` share one computation
+instead of each re-running it. Under the WebSocket connection Shiny
+maintains between browser and R session, every input change and output
+update is a small JSON message; the R process and the browser DOM stay in
+sync purely through this message stream, not through page reloads.
+
 ## Exercise
 
 1. Build a small app with a `selectInput()` for a dataset column and a

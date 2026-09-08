@@ -175,6 +175,28 @@ function but users can't call it" bugs happen — check for a missing
 | Run the package's test suite | `testthat::test_dir("tests/testthat")` or via `R CMD check` |
 | View a function's generated help | `?function_name` (after install) |
 
+## How It Actually Works
+
+`R CMD check`, the gate CRAN and most CI pipelines run, doesn't just "look
+for errors" — it performs a fixed sequence of independent checks: parsing
+`DESCRIPTION` for valid metadata, byte-compiling every function in `R/` to
+catch syntax errors, cross-referencing `NAMESPACE` exports against actual
+function names, running every example in your `.Rd` docs as real R code,
+executing your test suite, and (optionally) building the vignettes with
+Pandoc — each check is its own subprocess, which is why a single check
+failing (like an undocumented argument) doesn't prevent the others from
+running and reporting separately.
+
+`usethis::use_package("dplyr")` doesn't install anything — it edits your
+`DESCRIPTION`'s `Imports:` field, which only records a *declared
+dependency*; nothing forces you to actually call `dplyr::` functions
+correctly until `R CMD check` tries to load your namespace and verifies
+every function referenced via `pkg::fun()` or `@importFrom` actually
+exists in that dependency's installed namespace. This static
+cross-referencing (not a runtime check) is exactly why a typo'd function
+name from an imported package is caught at `check` time rather than only
+when a user happens to trigger that code path.
+
 ## Exercise
 
 1. Create a minimal package with one exported function of your own,

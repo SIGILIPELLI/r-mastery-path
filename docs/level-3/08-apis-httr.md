@@ -131,6 +131,30 @@ key is one accidental `git commit` away from leaking it.
 | Warn (don't stop) on non-2xx status | `warn_for_status(resp)` |
 | Keep a secret out of source code | `Sys.getenv("VAR_NAME")` |
 
+## How It Actually Works
+
+`httr`/`httr2` build an HTTP request by constructing a request object
+(method, URL, headers, body) and handing it to **libcurl** — the same C
+library `curl` the command-line tool and countless other languages use —
+which R links against via a compiled interface (the `curl` package).
+libcurl handles the actual TCP connection, TLS handshake, and HTTP
+protocol framing; R's role is just building the request object correctly
+and parsing the raw response bytes libcurl hands back.
+
+`GET()`/`POST()` are synchronous and **blocking**: the R process pauses at
+that line, doing nothing else, until the full response arrives or the
+request times out — there's no event loop unless you explicitly use an
+async-capable package. Response parsing (`content(resp, "parsed")`)
+inspects the `Content-Type` header to decide *how* to interpret the raw
+response bytes — JSON gets fed through `jsonlite`'s recursive descent
+parser (which builds R lists/vectors by walking the JSON token stream),
+while a JSON array of uniform objects gets coerced into a data frame by
+jsonlite auto-detecting that every object shares the same keys. Rate-limit
+handling you write yourself (checking `status_code() == 429` and
+`Sys.sleep()`) exists because none of this HTTP machinery has any built-in
+notion of API-specific rate limits — that logic is exactly as manual as
+retry logic in any other language's HTTP client.
+
 ## Exercise
 
 1. GET a resource from `jsonplaceholder.typicode.com` (any of `/users`,

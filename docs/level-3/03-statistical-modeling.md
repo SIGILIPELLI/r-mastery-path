@@ -161,6 +161,29 @@ the default output.
 | Change a factor's reference level | `relevel(f, ref = "level")` |
 | Log-odds → odds ratio | `exp(coef(fit))` |
 
+## How It Actually Works
+
+`lm()` doesn't solve the normal equations `(XᵀX)β = Xᵀy` directly by
+inverting `XᵀX` — that's numerically unstable when predictors are
+correlated. Internally, `lm()` computes a **QR decomposition** of the
+design matrix `X` (factoring it into an orthogonal matrix `Q` and an
+upper-triangular matrix `R`, via LAPACK's Householder-reflection routines
+compiled into R), then solves the much simpler triangular system
+`Rβ = Qᵀy` by back-substitution. This is both faster and dramatically more
+numerically stable than forming and inverting `XᵀX`, which is why `lm()`
+can still produce a (with a warning) sensible fit even with mild
+multicollinearity where naive matrix inversion would blow up.
+
+`glm()` extends this with **iteratively reweighted least squares (IRLS)**:
+because a logistic or Poisson model's likelihood isn't linear in the
+coefficients, `glm()` runs a loop that (1) linearizes the model around
+current coefficient estimates, (2) solves a weighted least-squares problem
+(again via QR) to get updated coefficients, and (3) repeats until the
+coefficients stop changing meaningfully (convergence) — the "iterations"
+message you sometimes see is literally counting these IRLS loop passes.
+Every coefficient's standard error, in turn, comes from the diagonal of
+the estimated covariance matrix derived from that same `R` factor.
+
 ## Exercise
 
 1. Simulate a predictor `x` and outcome `y` with a known slope, fit

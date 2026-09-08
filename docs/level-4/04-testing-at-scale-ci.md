@@ -184,6 +184,29 @@ Actions will mark the job green.
 | Assert exact equality | `expect_identical(a, b)` |
 | Assert an error is thrown | `expect_error(expr, "pattern")` |
 
+## How It Actually Works
+
+A GitHub Actions CI job running `R CMD check` starts from a bare
+virtual machine, so the workflow file has to reconstruct your entire
+dependency chain (R version, system libraries, CRAN packages) from
+scratch — `r-lib/actions` does this by parsing your `DESCRIPTION`'s
+`Imports`/`Suggests` and calling `install.packages()` (or a binary package
+cache) for each one, in dependency order, before your code is ever
+touched, which is why CI runs are slow the first time a dependency
+changes but fast once caching (keyed on a hash of `DESCRIPTION`) kicks in.
+
+Matrix builds (testing across R versions/OSes in parallel jobs) exist
+because R's ABI and some base behaviors do change subtly between versions,
+and OS-level differences (Windows path separators, macOS vs. Linux
+compiled-dependency availability) can break a package that only ever ran
+on one developer's machine — each matrix cell is a genuinely separate,
+isolated VM, so a failure on `windows-latest` but not `ubuntu-latest`
+usually points to something OS-specific (case-sensitive paths, a missing
+system library) rather than a bug in your R logic itself. Code coverage
+uploaded to a service like Codecov works from the `covr`-instrumented
+per-line hit counts described in Module 9, merged across whichever matrix
+cell(s) you configure to report coverage.
+
 ## Exercise
 
 1. Write a function `is_palindrome(x)` that checks whether a string reads

@@ -117,6 +117,28 @@ To actually see the dashboard, run `shiny::runApp("path/to/app_dir")`
 from an interactive R session, which launches the app in a browser tab
 with live sliders and dropdowns.
 
+## How It Actually Works
+
+A multi-output Shiny dashboard relies entirely on the reactive graph from
+Module 5 to stay responsive: each `renderPlot()`/`renderTable()` output
+only reruns when the specific reactive values or `reactive()` expressions
+it reads actually change, so filtering one chart's input doesn't force
+every other output on the page to recompute — Shiny's invalidation walk
+(triggered on every input event) only touches the subgraph downstream of
+what changed.
+
+The WebSocket connection underlying the dashboard means the R process
+backing your session stays alive between interactions (unlike a stateless
+HTTP request/response cycle) — every widget interaction sends a small
+message over that open socket, the server reruns just the invalidated
+reactive nodes, and only the *changed* output HTML/JSON gets pushed back
+and patched into the DOM, rather than reloading the page. This persistent
+per-session R process is also why each connected user gets their own
+independent copy of any reactive state (no accidental cross-user data
+leakage) but also why a slow reactive computation for one user doesn't
+block Shiny's ability to serve other users on the default async-friendly
+deployment configurations.
+
 ## Stretch goals
 
 - Add a `selectInput` for `product` alongside the existing `region`

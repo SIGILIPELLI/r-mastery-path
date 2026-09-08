@@ -149,6 +149,30 @@ the "R" extension is a lighter-weight alternative if you already live in VS
 Code for other languages. Either is fine to start; RStudio is what almost all
 R tutorials and documentation assume, so it's the path of least friction.
 
+## How It Actually Works
+
+When you type a line into the R console and hit Enter, you're talking to
+**R's REPL** (read-eval-print loop): it reads your text, parses it into an
+abstract syntax tree, evaluates that tree against the current environment,
+and prints the result (unless it's invisible, like from `<-`). RStudio adds
+a GUI around this same loop — the "Console" pane *is* that REPL process,
+just embedded in a window with syntax highlighting and a variable inspector
+bolted on.
+
+R itself is written mostly in C and Fortran (the core interpreter, memory
+manager, and many numeric routines) with a thin R-level standard library on
+top. When you install R, you're installing this compiled interpreter binary
+plus the base packages (`base`, `stats`, `utils`, ...) that ship with every
+R distribution. When you later run `install.packages("dplyr")`, R downloads
+source or pre-compiled binary code from CRAN and places it in your
+**library** — a directory tree R searches (`.libPaths()`) every time a
+`library()` call needs to resolve a package name to actual compiled/R code
+on disk.
+
+RStudio's "Environment" pane isn't magic either — it's polling the same
+global environment (`globalenv()`) that `ls()` would show you from the
+console, refreshing after each top-level statement completes.
+
 ## Exercise
 
 Write a script `greet.R` that creates a variable holding your name, then

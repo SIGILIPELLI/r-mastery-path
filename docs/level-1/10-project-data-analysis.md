@@ -161,6 +161,27 @@ explicit loop required. The `for` loop over `categories` is used
 deliberately for the readable per-category printout, with `tapply()` shown
 right after as the more idiomatic one-liner for the same aggregation.
 
+## How It Actually Works
+
+Running a script with `Rscript analyze_sales.R` starts a fresh R
+interpreter process, sources your file top to bottom exactly as if you'd
+pasted each line into a console, and exits — no leftover state carries
+over between runs, which is why scripts should never depend on objects
+left in your interactive session. Each pipeline stage in the script
+(reading, `aggregate()`/`dplyr` grouping, plotting) hands off its output as
+a plain in-memory R object to the next stage; there's no persistence
+between them beyond ordinary variable assignment, so the whole analysis
+re-executes from `read.csv()` onward every time you re-run the file.
+
+The aggregation step (grouping and summarizing) walks the data once to
+build a hash-keyed index of group membership (one bucket per unique
+combination of grouping columns), then applies your summary function to
+each bucket's row indices — this is why grouped operations scale roughly
+linearly with row count rather than needing one pass per group. The final
+`write.csv()`/plot output is just R serializing its in-memory
+representation back to a file format, with no connection to the original
+CSV once loaded.
+
 ## Stretch goals
 
 - Add a `profit_margin` column if you extend `sales.csv` with a `cost`

@@ -173,6 +173,27 @@ NOTE you have no way to reproduce without a service like R-hub.
 | Declare a runtime dependency | `Imports:` in `DESCRIPTION` |
 | Declare a test/dev-only dependency | `Suggests:` in `DESCRIPTION` |
 
+## How It Actually Works
+
+CRAN's submission process isn't a manual review of your code's logic — it
+runs your package through **automated `R CMD check --as-cran`** on
+multiple platforms (Windows, macOS, several Linux flavors, and both
+release and development R versions) in CRAN's own infrastructure, checking
+things a human reviewer wouldn't scale to: examples that must run within a
+time budget, no writing outside `tempdir()` during checks, correct
+`Encoding` declarations, and no undeclared dependencies — because your
+package's `NAMESPACE` and `DESCRIPTION` are the *only* things CRAN's
+automated tooling can statically verify without executing arbitrary
+untrusted code from every submission.
+
+Once accepted, CRAN mirrors your package's source tarball across its
+global mirror network and rebuilds binary versions for Windows/macOS
+using its own build farm — this is why a source-only submission can take
+a day or two to appear as an installable binary on other platforms, and
+why a package that only compiles on your machine (an undeclared system
+library dependency, e.g.) fails silently for users elsewhere until CRAN's
+build farm catches it and the maintainer is notified to fix it.
+
 ## Exercise
 
 1. Add a second exported function to the example package (e.g.

@@ -187,6 +187,28 @@ skeptical of predictions outside your data's observed range.
 | Inspect a model's fit | `summary(model)` |
 | Predict new values | `predict(model, newdata = ...)` |
 
+## How It Actually Works
+
+`mean()` looks trivial but is implemented as a single pass that
+accumulates a running sum in a C loop and divides once at the end — R
+doesn't compute a mean by first materializing an intermediate "sum vector."
+`var()` and `sd()`, though, are *not* computed with the naive
+sum-of-squares formula (which is numerically unstable for large values
+with small variance); R uses a two-pass algorithm that first computes the
+mean, then sums squared deviations from that mean, trading one extra pass
+over the data for much better floating-point accuracy.
+
+`t.test()` and similar hypothesis tests work by computing a test statistic
+from your sample (e.g. the difference in means scaled by pooled standard
+error) and then looking up where that statistic falls on a reference
+probability distribution (Student's t) using R's built-in distribution
+functions (`pt()`), which themselves evaluate the distribution's CDF via
+numerical integration or closed-form incomplete-beta-function
+approximations — not a lookup table. The resulting p-value is the tail
+area of that curve beyond your observed statistic, computed to double
+floating-point precision by these C-level routines rather than approximated
+from printed tables the way you would by hand.
+
 ## Exercise
 
 Using `group_a` and `group_b` as defined at the top (with `set.seed(42)`

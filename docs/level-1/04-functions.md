@@ -181,6 +181,27 @@ print(counter)
 | Early exit | `return(value)` |
 | Modify outer scope | `x <<- new_value` (avoid unless needed) |
 
+## How It Actually Works
+
+Every R function carries its own **environment** — the environment active
+where it was *defined*, not where it's called from (lexical scoping). When
+you call a function, R creates a brand-new execution environment whose
+*parent* is the function's enclosing environment, binds the arguments into
+it, and evaluates the body there. This is why a function can "see" a
+variable from where it was written even when called from somewhere else
+entirely, and why two calls to the same function never share local
+variables — each call gets a fresh environment.
+
+Arguments in R are **lazily evaluated** via *promises*: when you call
+`f(x = long_computation())`, R doesn't run `long_computation()` immediately.
+It creates a promise object recording the unevaluated expression and the
+caller's environment, and only forces (evaluates) it the first time `x` is
+actually referenced inside `f`'s body — and then caches the result, so it's
+never computed twice. This is how `missing()` can detect an unsupplied
+argument, and how default arguments can reference other arguments
+(`function(x, y = x * 2)`) — `x * 2` is just another unevaluated promise
+until `y` is touched.
+
 ## Exercise
 
 Write a function `bmi(weight_kg, height_m)` that returns the body mass index

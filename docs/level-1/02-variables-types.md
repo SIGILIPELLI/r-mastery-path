@@ -181,6 +181,28 @@ and can contain letters, digits, `.`, and `_`. Reserved words like `if`,
 | Missing | `NA` | type of the containing vector |
 | Nothing | `NULL` | `"NULL"` |
 
+## How It Actually Works
+
+`<-` doesn't "store a value in a box" the way many languages describe
+assignment — R uses **name-to-object binding with copy-on-modify**
+semantics. `x <- 5` creates a numeric vector of length 1 somewhere in
+memory and binds the name `x` (in the current environment, a hash table
+under the hood) to point at it. `y <- x` does *not* copy that memory; `y`
+and `x` both point at the same object, and R tracks a reference count on
+it. Only when you *modify* `y` (e.g. `y[1] <- 10`) does R notice more than
+one name points at the object, and *then* it duplicates the underlying
+memory before writing — this is why the operation is called copy-on-modify
+rather than copy-on-assign. You can see it with `tracemem(x)`.
+
+Every R value, no matter how small, is a **SEXP** (S-expression) — a C
+struct with a type tag, reference/attribute metadata, and a pointer to the
+actual data. This is why a "scalar" in R doesn't exist as a primitive the
+way it does in C: `5` is actually a numeric vector of length 1. Type
+coercion (e.g. `TRUE + 1`) works because R defines an implicit hierarchy —
+logical < integer < double < character — and silently promotes the
+"lower" type to the "higher" one before the operation runs, using
+internal C coercion routines rather than any R-level `if` logic.
+
 ## Exercise
 
 Create variables for a person's `name` (character), `age` (integer, using the

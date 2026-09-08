@@ -132,6 +132,30 @@ read for a performance gain that may not even materialize.
 | Element-wise if/else across a vector | `ifelse(cond, yes, no)` |
 | Logic depends on the previous iteration's result | A pre-allocated loop is fine — don't force a vectorized rewrite |
 
+## How It Actually Works
+
+The reason `x + 1` beats `for (i in seq_along(x)) x[i] + 1` isn't just
+"fewer lines" — it's the difference between one R-level operation that
+dispatches *once* into a compiled C loop (which then iterates the entire
+vector using raw pointer arithmetic with no further interpreter
+involvement) versus an R `for` loop, which re-enters the full R evaluator
+for every single iteration: parsing the loop body's call tree, resolving
+`x` and `i` by environment lookup, dispatching the `+` generic, and writing
+back a result — each of those steps carries fixed overhead that dominates
+when the actual arithmetic is trivial.
+
+`Rprof()`/`profvis` work by **statistical sampling**: at a fixed interval
+(default 10-20ms), R's profiler interrupts execution and records the
+current call stack, building a histogram of which functions were "on the
+stack" most often across the whole run — that's why profiling very fast
+code needs many repetitions (`microbenchmark`) to get a statistically
+meaningful sample, and why the profiler itself never sees the exact time
+any single call took, only how often it was caught executing. Memory
+profiling (`Rprof(memory.profiling = TRUE)`) additionally hooks R's
+garbage collector to log allocation events between samples, revealing
+where unexpected copies (from the copy-on-modify rules in Module 2) are
+actually happening.
+
 ## Exercise
 
 1. Write a loop-based and a vectorized version of a function that

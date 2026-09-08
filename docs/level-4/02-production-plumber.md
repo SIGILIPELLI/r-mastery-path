@@ -162,6 +162,29 @@ happened to still have it in memory.
 | Return a non-200 status | `res$status <- 400` inside the handler |
 | Catch errors inside a route | wrap handler body in `tryCatch()` |
 
+## How It Actually Works
+
+`plumber` turns roxygen-style comment annotations (`#* @get /path`) above
+your R functions into an HTTP routing table at parse time: it scans your
+source file's comments with a regex-based parser, builds a mapping from
+HTTP method + path pattern to the R function immediately following that
+comment block, then starts an embedded HTTP server (built on the `httpuv`
+package, which itself wraps the C `libuv` event loop library) that
+dispatches each incoming request to the matched function, converts the
+function's return value to JSON via `jsonlite`, and writes the HTTP
+response.
+
+Because `httpuv`'s event loop is single-threaded by default, a plumber API
+handles requests **one at a time** unless you explicitly run multiple R
+processes behind a load balancer (or use plumber's newer async support) —
+a slow handler (like a model prediction that takes a full second) blocks
+every other concurrent request during that second, which is precisely why
+production deployments run several plumber processes behind something like
+Nginx rather than relying on a single R process to handle real concurrent
+load. Request bodies (JSON payloads) are parsed by the same `jsonlite`
+recursive-descent parser used by `httr`, converting posted JSON directly
+into R lists/data frames your handler function receives as arguments.
+
 ## Exercise
 
 1. Write a `plumber.R` with a `@get /square` route that takes a numeric

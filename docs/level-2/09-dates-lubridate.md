@@ -190,6 +190,29 @@ mislabeled).
 | Format for display | `format(x, "%B %d, %Y")` (reliable; `stamp("example")(x)` can guess wrong) |
 | Convert display time zone | `with_tz(x, "Zone/Name")` |
 
+## How It Actually Works
+
+Under the hood, an R `Date` is just a **double storing the number of days
+since 1970-01-01** (the Unix epoch) with a `"Date"` class attribute, and a
+`POSIXct` datetime is a double storing **seconds** since that same epoch.
+All the "date arithmetic" you do — subtracting two dates, adding `7` to
+get a week later — is genuinely just numeric arithmetic on these
+underlying doubles; the class attribute only controls how `print()` and
+`format()` *display* the number, via S3 methods that convert the raw
+day/second count back into a calendar representation using well-known
+calendar algorithms (accounting for leap years, days-per-month, etc.).
+
+`lubridate`'s parsing functions like `ymd()` and `mdy()` work by taking
+your ambiguous string, applying a specific expected token order (year-
+month-day vs. month-day-year) via internal regex extraction, and handing
+the extracted numeric pieces to the same date-construction machinery base
+R uses — the value is in guessing separators and orderings robustly, not
+in a different underlying date representation. Time zones are handled by
+tagging a `POSIXct`'s stored epoch-seconds value with a `tzone` attribute
+that only affects *display* math (converting to local wall-clock time
+using the IANA tz database compiled into your OS) — the stored instant in
+time never changes when you change its printed time zone.
+
 ## Exercise
 
 Given `signups <- c("2024-01-05", "2024-01-20", "2024-02-14", "2024-02-15",

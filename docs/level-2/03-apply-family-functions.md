@@ -192,6 +192,28 @@ directly on a data frame, and doesn't have `sapply()`'s shape-guessing
 problem. The apply family shines on plain vectors, lists, and matrices, or
 inside your own functions where dplyr's data-frame-shaped verbs don't fit.
 
+## How It Actually Works
+
+`sapply()`, `lapply()`, and friends look like loops from the outside, but
+mechanically they're closer to vectorization-by-delegation: `lapply(x, f)`
+is implemented in C (`do_lapply`), which iterates over `x`'s elements at
+the C level and, for each one, calls back into the R evaluator to run `f`.
+That still costs one full R function-call dispatch per element — the same
+cost a `for` loop pays — so `lapply()` isn't inherently faster than a
+well-written `for` loop; its real advantages are that it guarantees a list
+result with no manual pre-allocation, and it makes the "map this function
+over this data" intent explicit and less bug-prone (no off-by-one index
+errors, no accidentally-reused loop variable).
+
+`sapply()` is literally `lapply()` followed by a **simplification** step:
+it inspects the resulting list, and if every element is length-1 and the
+same type, it flattens the list into an atomic vector using `unlist()`
+internally — which is exactly why `sapply()`'s return type is unpredictable
+(vector vs. list vs. matrix) and why `vapply()` exists: it takes an
+explicit template for the expected output type/length and checks each
+result against it immediately, failing fast rather than silently returning
+whatever shape happened to come out.
+
 ## Exercise
 
 Given `prices <- c(2.5, 4.0, 1.25, 9.99)`, write three versions of "round

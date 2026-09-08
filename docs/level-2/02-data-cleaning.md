@@ -230,6 +230,27 @@ result (e.g. a running total that resets on a condition).
 | Normalize case | `tolower(x)`, `toupper(x)`, `tools::toTitleCase(x)` |
 | Flag outliers (IQR method) | `quantile(x, c(0.25, 0.75))` +/- `1.5 * IQR` |
 
+## How It Actually Works
+
+Missing values in R aren't a sentinel string like `"NA"` scanned for at
+run time — `NA` is a real value of a specific type (`NA_integer_`,
+`NA_real_`, `NA_character_`, logical `NA`) baked into R's internal
+representation, distinct per atomic type, with dedicated bit patterns
+(for doubles, `NA` is a specific quiet-NaN payload the interpreter
+recognizes). This is why `is.na()` is a fast, type-aware C-level check
+rather than a string comparison, and why arithmetic propagates `NA`
+automatically: any C-level numeric operation checks for that NaN pattern
+and short-circuits to `NA` rather than computing garbage.
+
+Functions like `complete.cases()` work by building a logical vector across
+all specified columns and combining them row-wise with a single pass —
+O(rows × columns) — rather than filtering column by column. Deduplication
+(`duplicated()`/`distinct()`) uses a hash table internally: each row is
+hashed once, and a row is flagged as a duplicate the moment its hash (and
+an equality check to rule out collisions) has already been seen, giving
+roughly linear-time performance instead of the O(n²) pairwise comparison
+naive deduplication would require.
+
 ## Exercise
 
 Starting from `messy` as defined at the top: write a single dplyr pipe that

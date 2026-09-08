@@ -128,6 +128,28 @@ magnitudes at each x value.
 | Side-by-side bars per group | `geom_col(position = "dodge")` |
 | Stacked bars per group | `geom_col(position = "stack")` (default) |
 
+## How It Actually Works
+
+Custom ggplot2 themes work by modifying a nested list of `element_*()`
+specification objects (`theme()` returns a `theme` object that's really a
+named list of drawing instructions — line widths, colors, margins) that
+gets merged with the currently active default theme via **inheritance
+rules**: each element can inherit unset properties from a parent element
+(e.g. `axis.text` inherits from `text` unless overridden), resolved at
+render time by walking this inheritance graph before any pixel is drawn.
+This is why setting `text = element_text(family = "serif")` cascades to
+axis labels, titles, and legends simultaneously — they're all descendants
+in that same inheritance tree.
+
+Faceting (`facet_wrap()`/`facet_grid()`) works by first computing, from
+your faceting variable(s), the full set of unique panel combinations and
+their layout grid position, then re-running the entire per-layer
+stat/scale/geom rendering pipeline (from Module 4) independently *within
+each panel*, but sharing scale ranges across panels by default so panels
+stay visually comparable — that shared-scale computation is why faceting
+a plot with `scales = "free"` renders noticeably differently: each panel
+gets its own independently-computed axis range instead of one global one.
+
 ## Exercise
 
 1. Take the `sales` tibble above and facet it by `region` with

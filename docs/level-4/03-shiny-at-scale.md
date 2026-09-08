@@ -149,6 +149,30 @@ losing its state.
 | Test a module without a browser | `testServer(counterServer, args = list(...), { session$setInputs(...); expect_equal(...) })` |
 | Simulate a user input in a test | `session$setInputs(name = value)` |
 
+## How It Actually Works
+
+Shiny modules (`moduleServer()`) solve a real namespace-collision problem
+mechanically, not just organizationally: `NS(id)` generates a prefixing
+function that turns `"plot"` into `"myModule-plot"` in the HTML `id`
+attribute, and `moduleServer()` wraps your module's server logic in its
+*own* nested environment, so `input$plot` inside the module resolves
+against that module's own scoped reactive values rather than the app's
+global `input` — two instances of the same module can coexist because each
+call to `moduleServer()` creates an independent closure over a freshly
+generated namespace, not because Shiny does anything special at the HTTP
+layer.
+
+Scaling a Shiny app under real concurrent load runs into the same
+single-threaded-R-process ceiling as plumber: one R process serves one
+user's reactive graph updates at a time by default, so production
+deployments (Shiny Server Pro, Posit Connect, or a container orchestrator)
+run **multiple R processes**, each holding independent copies of the app,
+behind a load balancer that pins each browser session (via sticky
+sessions) to the one R process holding that session's actual live reactive
+state — a session can't be transparently moved between processes mid-flight
+because its reactive graph and any accumulated in-memory data live only in
+that one process's memory.
+
 ## Exercise
 
 1. Write a `filterUI(id)` / `filterServer(id, data)` module pair that

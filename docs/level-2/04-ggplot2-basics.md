@@ -176,6 +176,28 @@ deciding to save it.
 | Small multiples | manual `par(mfrow=)` + loop | `+ facet_wrap(~ group)` |
 | Save to file | `png()` / `dev.off()` | `ggsave("file.png", plot)` |
 
+## How It Actually Works
+
+ggplot2 doesn't draw anything the moment you write `ggplot(df, aes(...))`
+— it builds up a `ggplot` object that's just a list: a data frame, a
+mapping, and a growing list of *layers*, *scales*, *facets*, and a *theme*.
+Actual rendering happens only when the object is printed (auto-triggered
+at the console, or explicitly), at which point ggplot2 runs its
+**layered grammar pipeline**: for each layer it (1) applies any
+statistical transformation (`stat_*`, e.g. binning for histograms), (2)
+maps the transformed data through each aesthetic's *scale* (a function
+from data values to visual properties like x-position or color, built
+by inspecting the full range of the data first), and (3) hands the result
+to a `geom_*`'s `draw_panel()` method, which emits actual `grid` graphical
+objects (grobs).
+
+This is why scales are computed *globally* across all layers before any
+drawing happens — ggplot2 has to see every layer's data to know the
+overall x/y range and color domain before it can decide where "halfway"
+on an axis or "middle of the color gradient" actually falls, which is also
+why adding a layer with wildly different data can suddenly rescale a plot
+you thought was already finished.
+
 ## Exercise
 
 Using the `sales` data frame from the top of this page: build a single

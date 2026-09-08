@@ -164,6 +164,28 @@ algorithm from multiple random starts and keep the best result.
 | Wrap a vector with time metadata | `ts(x, frequency = n)` |
 | Test equal variance before ANOVA | `bartlett.test(y ~ group, data = df)` |
 
+## How It Actually Works
+
+Mixed-effects models (`lme4::lmer()`) extend ordinary least squares by
+estimating both fixed effects and random effects' variance components
+simultaneously — internally, `lmer()` maximizes a **profiled restricted
+likelihood** by iteratively updating a sparse Cholesky factorization of
+the random-effects covariance structure (using highly optimized sparse
+linear algebra, since random-effect design matrices are mostly zeros), an
+optimization loop that's far more numerically delicate than `lm()`'s
+single QR solve — which is why `lmer()` fits can throw convergence
+warnings that `lm()` never would.
+
+Principal component analysis (`prcomp()`) computes principal components by
+taking the **singular value decomposition (SVD)** of the (centered, and
+optionally scaled) data matrix directly, rather than eigendecomposing the
+covariance matrix — SVD is numerically more stable, especially when
+variables are on very different scales or nearly collinear. The resulting
+right singular vectors *are* the principal component loadings, and the
+singular values, squared and normalized, give the proportion of variance
+explained — `summary()` on a `prcomp` object is just formatting these
+already-computed SVD quantities.
+
 ## Exercise
 
 1. Simulate four groups where three share a mean and one is clearly
