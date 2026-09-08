@@ -834,6 +834,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2539,6 +2561,25 @@ and can contain letters, digits, <code>.</code>, and <code>_</code>. Reserved wo
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>&lt;-</code> doesn't "store a value in a box" the way many languages describe
+assignment — R uses <strong>name-to-object binding with copy-on-modify</strong>
+semantics. <code>x &lt;- 5</code> creates a numeric vector of length 1 somewhere in
+memory and binds the name <code>x</code> (in the current environment, a hash table
+under the hood) to point at it. <code>y &lt;- x</code> does <em>not</em> copy that memory; <code>y</code>
+and <code>x</code> both point at the same object, and R tracks a reference count on
+it. Only when you <em>modify</em> <code>y</code> (e.g. <code>y[1] &lt;- 10</code>) does R notice more than
+one name points at the object, and <em>then</em> it duplicates the underlying
+memory before writing — this is why the operation is called copy-on-modify
+rather than copy-on-assign. You can see it with <code>tracemem(x)</code>.</p>
+<p>Every R value, no matter how small, is a <strong>SEXP</strong> (S-expression) — a C
+struct with a type tag, reference/attribute metadata, and a pointer to the
+actual data. This is why a "scalar" in R doesn't exist as a primitive the
+way it does in C: <code>5</code> is actually a numeric vector of length 1. Type
+coercion (e.g. <code>TRUE + 1</code>) works because R defines an implicit hierarchy —
+logical &lt; integer &lt; double &lt; character — and silently promotes the
+"lower" type to the "higher" one before the operation runs, using
+internal C coercion routines rather than any R-level <code>if</code> logic.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Create variables for a person's <code>name</code> (character), <code>age</code> (integer, using the
 <code>L</code> suffix), <code>height_m</code> (double), and <code>is_student</code> (logical). Print each one's

@@ -1288,6 +1288,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2371,6 +2382,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2587,6 +2609,25 @@ deciding to save it.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>ggplot2 doesn't draw anything the moment you write <code>ggplot(df, aes(...))</code>
+— it builds up a <code>ggplot</code> object that's just a list: a data frame, a
+mapping, and a growing list of <em>layers</em>, <em>scales</em>, <em>facets</em>, and a <em>theme</em>.
+Actual rendering happens only when the object is printed (auto-triggered
+at the console, or explicitly), at which point ggplot2 runs its
+<strong>layered grammar pipeline</strong>: for each layer it (1) applies any
+statistical transformation (<code>stat_*</code>, e.g. binning for histograms), (2)
+maps the transformed data through each aesthetic's <em>scale</em> (a function
+from data values to visual properties like x-position or color, built
+by inspecting the full range of the data first), and (3) hands the result
+to a <code>geom_*</code>'s <code>draw_panel()</code> method, which emits actual <code>grid</code> graphical
+objects (grobs).</p>
+<p>This is why scales are computed <em>globally</em> across all layers before any
+drawing happens — ggplot2 has to see every layer's data to know the
+overall x/y range and color domain before it can decide where "halfway"
+on an axis or "middle of the color gradient" actually falls, which is also
+why adding a layer with wildly different data can suddenly rescale a plot
+you thought was already finished.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Using the <code>sales</code> data frame from the top of this page: build a single
 ggplot2 chart that shows revenue per quarter, grouped/colored by <code>region</code>,

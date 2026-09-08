@@ -2108,6 +2108,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2276,6 +2287,17 @@
     <span class="md-ellipsis">
       
         Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2468,6 +2490,24 @@ original order in its own column before keying.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>data.table</code> gets its speed from <strong>modifying data in place</strong> rather than
+following R's default copy-on-modify semantics: <code>dt[, newcol := value]</code>
+uses the <code>:=</code> operator to add or update a column by directly mutating the
+existing object's memory (bypassing R's usual reference-counted copying
+described in Module 2), which is why <code>data.table</code> operations are
+documented as having side effects — no new object is created and returned
+the way <code>dplyr::mutate()</code> would.</p>
+<p>Its <code>dt[i, j, by]</code> syntax compiles grouped operations into optimized
+C code paths for common patterns (like grouped sums/means) rather than
+calling back into the R evaluator per group the way a naive <code>lapply()</code>
+over groups would. Keyed joins (<code>setkey()</code> then <code>dt1[dt2]</code>) work by
+<strong>sorting</strong> the table on the key columns once (an O(n log n) radix sort
+for the common integer/character key case) and storing that ordering, so
+subsequent joins on the same key can use binary search rather than a full
+hash join — this is why setting a key pays a one-time upfront cost that
+then makes every later join or filter on that key dramatically faster,
+trading preprocessing time for repeated-query speed.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Build a 5-million-row <code>data.table</code> with an <code>id</code>, a <code>category</code>

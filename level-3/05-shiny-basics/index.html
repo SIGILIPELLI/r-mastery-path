@@ -1648,6 +1648,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2476,6 +2498,25 @@ move for no benefit.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>A Shiny app is fundamentally a <strong>reactive graph</strong>, not a request/response
+web app in the traditional sense: <code>input$x</code> is a reactive value, and any
+<code>render*()</code>/<code>reactive()</code> expression that reads it becomes a <em>dependent</em>
+node automatically — Shiny builds this dependency graph by tracing which
+reactive values each expression touches the first time it runs. When
+<code>input$x</code> changes, Shiny doesn't re-run your whole server function; it
+walks the dependency graph, <strong>invalidates</strong> only the nodes that read <code>x</code>
+(directly or transitively), and re-executes just those, in dependency
+order, via an event loop that flushes all pending invalidations after each
+input change.</p>
+<p>This is why wrapping expensive shared computation in <code>reactive()</code> rather
+than a plain function matters: <code>reactive()</code> caches its last computed value
+and only re-executes when one of <em>its own</em> dependencies actually changes,
+so multiple outputs reading the same <code>reactive()</code> share one computation
+instead of each re-running it. Under the WebSocket connection Shiny
+maintains between browser and R session, every input change and output
+update is a small JSON message; the R process and the browser DOM stay in
+sync purely through this message stream, not through page reloads.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Build a small app with a <code>selectInput()</code> for a dataset column and a

@@ -1547,6 +1547,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2539,6 +2561,26 @@ body fails the same way.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>tidyr::pivot_longer()</code>/<code>pivot_wider()</code> reshape data by rebuilding the
+underlying list-of-columns structure rather than moving values in place:
+<code>pivot_longer()</code> computes, for every output row, which combination of
+(original row, selected column) it corresponds to, then constructs new
+vectors by indexing the original columns in that computed order — it's
+conceptually a big <code>merge</code>/<code>join</code>-like index computation, not a literal
+in-place transpose. This is also why pivoting on data with mismatched
+types across the pivoted columns forces coercion into one common type in
+the output's single "value" column, using the same coercion hierarchy
+covered in Module 2.</p>
+<p><code>dplyr::group_by()</code> followed by a summary doesn't loop over groups one at a
+time in R code — it computes a single grouping index (which rows belong to
+which group, via hashing the grouping columns) once, then dispatches the
+summary computation across all groups using vectorized or C-level grouped
+aggregation where possible. <code>across()</code> works by taking your column
+selection, resolving it to actual column names once via tidyselect's
+non-standard evaluation, then applying your function(s) to each resolved
+column and assembling the results back into a single data frame — it's
+sugar over what would otherwise be a manual loop plus <code>bind_cols()</code>.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Build a small <code>orders</code> / <code>products</code> pair of tibbles where <code>products</code>

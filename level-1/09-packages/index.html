@@ -1041,6 +1041,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2536,6 +2558,23 @@ installs and loads the most common ones together:</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>library(pkg)</code> doesn't "import" symbols the way Python does — it takes the
+package's already-compiled <strong>namespace environment</strong> (built once when the
+package was installed, via <code>R CMD INSTALL</code>, from its <code>NAMESPACE</code> file and
+<code>R/</code> source) and <em>attaches</em> it to R's <strong>search path</strong>, a chain of
+environments R walks when resolving a bare name like <code>mutate</code>. Attaching
+inserts the package's exported-functions environment right after the
+global environment in that chain, which is exactly why a function you
+define yourself can "mask" one from a package with the same name — your
+global environment is searched first.</p>
+<p>Each package actually has <em>two</em> environments: a <strong>namespace</strong> (everything
+defined in the package, exported or not) and an <strong>exports</strong> environment
+(just the public API), linked so that internal functions can see each
+other and the package's own private helpers even though users can't.
+<code>pkg::fun</code> bypasses the search path entirely and looks <code>fun</code> up directly in
+<code>pkg</code>'s namespace — which is why it works even for functions the package
+chose not to export via <code>:::</code>, and why it never breaks due to masking.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Write a script that checks whether the <code>readr</code> package is installed using
 <code>require()</code>, installs it if missing, then loads it and uses <code>readr::read_csv()</code>

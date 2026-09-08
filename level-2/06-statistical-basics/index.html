@@ -1311,6 +1311,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2533,6 +2555,25 @@ skeptical of predictions outside your data's observed range.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>mean()</code> looks trivial but is implemented as a single pass that
+accumulates a running sum in a C loop and divides once at the end — R
+doesn't compute a mean by first materializing an intermediate "sum vector."
+<code>var()</code> and <code>sd()</code>, though, are <em>not</em> computed with the naive
+sum-of-squares formula (which is numerically unstable for large values
+with small variance); R uses a two-pass algorithm that first computes the
+mean, then sums squared deviations from that mean, trading one extra pass
+over the data for much better floating-point accuracy.</p>
+<p><code>t.test()</code> and similar hypothesis tests work by computing a test statistic
+from your sample (e.g. the difference in means scaled by pooled standard
+error) and then looking up where that statistic falls on a reference
+probability distribution (Student's t) using R's built-in distribution
+functions (<code>pt()</code>), which themselves evaluate the distribution's CDF via
+numerical integration or closed-form incomplete-beta-function
+approximations — not a lookup table. The resulting p-value is the tail
+area of that curve beyond your observed statistic, computed to double
+floating-point precision by these C-level routines rather than approximated
+from printed tables the way you would by hand.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Using <code>group_a</code> and <code>group_b</code> as defined at the top (with <code>set.seed(42)</code>
 run first so your numbers match): run <code>t.test(group_a, group_b)</code> and write

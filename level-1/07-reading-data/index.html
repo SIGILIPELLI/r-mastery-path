@@ -963,6 +963,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2469,6 +2491,23 @@ after loading any new file:</p>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nf">summary</span><span class="p">(</span><span class="n">people</span><span class="p">)</span><span class="w">   </span><span class="c1"># quick stats per column</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nf">anyNA</span><span class="p">(</span><span class="n">people</span><span class="p">)</span><span class="w">     </span><span class="c1"># TRUE if the data has any missing values at all</span>
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>read.csv()</code> works by opening a file connection and running R's C-level
+tokenizer over it line by line: it splits each line on the separator,
+buffers the raw strings for each column, and only <em>after</em> seeing every row
+does it try to infer each column's type (numeric, integer, logical,
+character) by attempting to parse the accumulated strings — which is why
+a single stray non-numeric value anywhere in a column forces the whole
+column to fall back to <code>character</code>. This two-pass-ish behavior (collect
+then coerce) is also why huge base-R <code>read.csv()</code> calls are memory-hungry:
+the raw string buffer and the final typed columns briefly coexist.</p>
+<p><code>readr::read_csv()</code> takes a different, faster approach: it reads a sample
+of the first ~1000 rows to <em>guess</em> column types up front (hence the column
+specification it prints), then streams the rest of the file parsing
+directly into the guessed types using compiled C++ (via Rcpp) rather than
+R-level loops — no full re-scan-and-coerce pass, and no factor conversion
+step to worry about. That's the mechanical reason it's both faster and
+more predictable on large files.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Create a small CSV file <code>scores.csv</code> by hand (a text editor or <code>cat()</code> from
 R) with columns <code>student,subject,score</code> and at least 6 rows across 2

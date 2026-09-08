@@ -1013,6 +1013,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2534,6 +2556,24 @@ until you close the device.</p>
 first. <a href="../../level-2/04-ggplot2-basics/">Level 2</a> introduces <strong>ggplot2</strong>, the
 more expressive and widely used plotting package for anything beyond a quick
 look at your data.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Base R plotting (<code>plot()</code>, <code>hist()</code>, <code>abline()</code>, ...) is <strong>imperative and
+stateful</strong>: each call draws directly onto the currently active graphics
+device (a bitmap or vector canvas R maintains internally) and mutates it in
+place. <code>plot()</code> doesn't just draw points — it resets the device, computes
+axis ranges from your data, and pushes a new "plotting region" onto R's
+internal graphics state stack. Every subsequent call like <code>abline()</code> or
+<code>points()</code> you make afterward doesn't redraw the whole chart; it layers
+more ink onto the <em>same</em> device using the axis coordinate system that
+<code>plot()</code> already established — which is exactly why call order matters and
+why you can't easily "undo" one layer without restarting from <code>plot()</code>.</p>
+<p>Under the hood, each high-level plotting function ultimately calls into R's
+<strong>grid/graphics engine</strong> (a C-level device driver interface), which
+translates your plotting calls into device-specific drawing operations —
+pixel writes for PNG, vector path commands for PDF/SVG. This is also why
+resizing an RStudio plot pane after the fact can shift text and point
+sizes: the device is re-rendered at the new dimensions from the same
+recorded calls, not simply scaled as an image.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Using the <code>exam_scores</code> vector generated above (<code>rnorm(200, mean = 75, sd =
 10)</code> with <code>set.seed(42)</code>), produce three plots: a histogram with 20 breaks

@@ -1968,6 +1968,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2462,6 +2484,27 @@ losing its state.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Shiny modules (<code>moduleServer()</code>) solve a real namespace-collision problem
+mechanically, not just organizationally: <code>NS(id)</code> generates a prefixing
+function that turns <code>"plot"</code> into <code>"myModule-plot"</code> in the HTML <code>id</code>
+attribute, and <code>moduleServer()</code> wraps your module's server logic in its
+<em>own</em> nested environment, so <code>input$plot</code> inside the module resolves
+against that module's own scoped reactive values rather than the app's
+global <code>input</code> — two instances of the same module can coexist because each
+call to <code>moduleServer()</code> creates an independent closure over a freshly
+generated namespace, not because Shiny does anything special at the HTTP
+layer.</p>
+<p>Scaling a Shiny app under real concurrent load runs into the same
+single-threaded-R-process ceiling as plumber: one R process serves one
+user's reactive graph updates at a time by default, so production
+deployments (Shiny Server Pro, Posit Connect, or a container orchestrator)
+run <strong>multiple R processes</strong>, each holding independent copies of the app,
+behind a load balancer that pins each browser session (via sticky
+sessions) to the one R process holding that session's actual live reactive
+state — a session can't be transparently moved between processes mid-flight
+because its reactive graph and any accumulated in-memory data live only in
+that one process's memory.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Write a <code>filterUI(id)</code> / <code>filterServer(id, data)</code> module pair that

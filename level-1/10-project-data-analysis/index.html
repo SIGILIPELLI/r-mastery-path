@@ -1025,6 +1025,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#stretch-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#stretch-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2435,6 +2457,24 @@ testable in isolation, and vectorized — calling it once on the whole
 explicit loop required. The <code>for</code> loop over <code>categories</code> is used
 deliberately for the readable per-category printout, with <code>tapply()</code> shown
 right after as the more idiomatic one-liner for the same aggregation.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Running a script with <code>Rscript analyze_sales.R</code> starts a fresh R
+interpreter process, sources your file top to bottom exactly as if you'd
+pasted each line into a console, and exits — no leftover state carries
+over between runs, which is why scripts should never depend on objects
+left in your interactive session. Each pipeline stage in the script
+(reading, <code>aggregate()</code>/<code>dplyr</code> grouping, plotting) hands off its output as
+a plain in-memory R object to the next stage; there's no persistence
+between them beyond ordinary variable assignment, so the whole analysis
+re-executes from <code>read.csv()</code> onward every time you re-run the file.</p>
+<p>The aggregation step (grouping and summarizing) walks the data once to
+build a hash-keyed index of group membership (one bucket per unique
+combination of grouping columns), then applies your summary function to
+each bucket's row indices — this is why grouped operations scale roughly
+linearly with row count rather than needing one pass per group. The final
+<code>write.csv()</code>/plot output is just R serializing its in-memory
+representation back to a file format, with no connection to the original
+CSV once loaded.</p>
 <h2 id="stretch-goals">Stretch goals<a class="headerlink" href="#stretch-goals" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Add a <code>profit_margin</code> column if you extend <code>sales.csv</code> with a <code>cost</code>

@@ -1249,6 +1249,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2557,6 +2579,25 @@ adding a derived column — <a href="../01-dplyr-deep-dive/"><code>dplyr</code><
 directly on a data frame, and doesn't have <code>sapply()</code>'s shape-guessing
 problem. The apply family shines on plain vectors, lists, and matrices, or
 inside your own functions where dplyr's data-frame-shaped verbs don't fit.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>sapply()</code>, <code>lapply()</code>, and friends look like loops from the outside, but
+mechanically they're closer to vectorization-by-delegation: <code>lapply(x, f)</code>
+is implemented in C (<code>do_lapply</code>), which iterates over <code>x</code>'s elements at
+the C level and, for each one, calls back into the R evaluator to run <code>f</code>.
+That still costs one full R function-call dispatch per element — the same
+cost a <code>for</code> loop pays — so <code>lapply()</code> isn't inherently faster than a
+well-written <code>for</code> loop; its real advantages are that it guarantees a list
+result with no manual pre-allocation, and it makes the "map this function
+over this data" intent explicit and less bug-prone (no off-by-one index
+errors, no accidentally-reused loop variable).</p>
+<p><code>sapply()</code> is literally <code>lapply()</code> followed by a <strong>simplification</strong> step:
+it inspects the resulting list, and if every element is length-1 and the
+same type, it flattens the list into an atomic vector using <code>unlist()</code>
+internally — which is exactly why <code>sapply()</code>'s return type is unpredictable
+(vector vs. list vs. matrix) and why <code>vapply()</code> exists: it takes an
+explicit template for the expected output type/length and checks each
+result against it immediately, failing fast rather than silently returning
+whatever shape happened to come out.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Given <code>prices &lt;- c(2.5, 4.0, 1.25, 9.99)</code>, write three versions of "round
 every price to the nearest whole dollar": one with an explicit <code>for</code> loop,

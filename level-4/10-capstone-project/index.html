@@ -2173,6 +2173,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#stretch-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2296,6 +2307,17 @@
     <span class="md-ellipsis">
       
         How the pieces connect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2540,6 +2562,26 @@ example) and running <code>renv::snapshot()</code> on the project (Module 6) are
 the two steps that would take this from "runs on my machine" to "runs
 the same way on any machine" — both are direct extensions of what's
 already here.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Wiring together simulation, modeling, and a plumber API in one pipeline
+means each stage's output has to survive as a <strong>serialized R object</strong>
+between process boundaries: the fitted model from the modeling stage is
+written to disk with <code>saveRDS()</code> (which serializes the object's full
+internal representation — including, for an <code>lm</code>/<code>glm</code> object, its stored
+QR decomposition from Module 3 — into R's own binary serialization
+format), and the plumber API process, running independently, calls
+<code>readRDS()</code> to reconstruct that exact object in its own memory rather than
+refitting the model on every request.</p>
+<p>This separation matters mechanically: the plumber process never needs the
+original training data in memory at request time, only the already-fitted
+model object and a <code>predict()</code> call, which is why <code>predict.lm()</code> can score
+new data using just the fitted coefficients and QR factor stored inside
+the serialized object — no re-solving of the original least-squares system
+is needed per request. The "how the pieces connect" boundary in this
+project is exactly the boundary between R-object serialization
+(<code>saveRDS</code>/<code>readRDS</code>) on one side and HTTP/JSON serialization (via
+<code>jsonlite</code>, as in Module 8) on the other — two entirely different encoding
+mechanisms bridging the pipeline's stages.</p>
 <h2 id="stretch-goals">Stretch goals<a class="headerlink" href="#stretch-goals" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Replace <code>generate_sales_data()</code> with a real CSV or database read, and

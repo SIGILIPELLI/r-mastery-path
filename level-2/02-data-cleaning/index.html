@@ -1221,6 +1221,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2589,6 +2611,24 @@ result (e.g. a running total that resets on a condition).</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Missing values in R aren't a sentinel string like <code>"NA"</code> scanned for at
+run time — <code>NA</code> is a real value of a specific type (<code>NA_integer_</code>,
+<code>NA_real_</code>, <code>NA_character_</code>, logical <code>NA</code>) baked into R's internal
+representation, distinct per atomic type, with dedicated bit patterns
+(for doubles, <code>NA</code> is a specific quiet-NaN payload the interpreter
+recognizes). This is why <code>is.na()</code> is a fast, type-aware C-level check
+rather than a string comparison, and why arithmetic propagates <code>NA</code>
+automatically: any C-level numeric operation checks for that NaN pattern
+and short-circuits to <code>NA</code> rather than computing garbage.</p>
+<p>Functions like <code>complete.cases()</code> work by building a logical vector across
+all specified columns and combining them row-wise with a single pass —
+O(rows × columns) — rather than filtering column by column. Deduplication
+(<code>duplicated()</code>/<code>distinct()</code>) uses a hash table internally: each row is
+hashed once, and a row is flagged as a duplicate the moment its hash (and
+an equality check to rule out collisions) has already been seen, giving
+roughly linear-time performance instead of the O(n²) pairwise comparison
+naive deduplication would require.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Starting from <code>messy</code> as defined at the top: write a single dplyr pipe that
 (1) trims and title-cases <code>name</code>, (2) converts <code>age</code> to numeric, capturing

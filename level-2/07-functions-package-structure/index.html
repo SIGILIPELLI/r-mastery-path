@@ -1339,6 +1339,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2509,6 +2531,24 @@ dependencies:</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>An R package is not just "a folder of functions" — it's a directory with a
+specific, machine-readable structure (<code>DESCRIPTION</code>, <code>NAMESPACE</code>, <code>R/</code>,
+<code>man/</code>) that <code>R CMD build</code>/<code>R CMD INSTALL</code> parse to produce a compiled
+package: <code>R/*.R</code> files are parsed and byte-compiled (R's bytecode compiler
+translates your R source into a more compact instruction set the
+interpreter executes faster than raw parsed expressions), and the result
+is written into a package-specific namespace environment as described
+earlier.</p>
+<p><code>devtools::load_all()</code> mimics this whole install-and-attach process without
+touching disk permanently: it parses your <code>R/</code> source fresh, builds a
+temporary namespace environment, and attaches it — which is why it's fast
+to iterate with but doesn't catch every issue a real <code>R CMD check</code> install
+would (like documentation or <code>NAMESPACE</code> export mismatches). Function
+documentation written as roxygen2 comments (<code>#'</code>) works by a separate
+static-analysis pass: roxygen2 parses those comments plus the function
+signature they precede and generates <code>.Rd</code> files in <code>man/</code>, entirely
+independent of whether the function's <em>code</em> runs correctly.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Take the <code>classify_bmi()</code> function from
 <a href="../../level-1/04-functions/">Level 1, Module 4's exercise</a> and rewrite it

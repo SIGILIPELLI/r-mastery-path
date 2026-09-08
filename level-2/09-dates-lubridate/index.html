@@ -1406,6 +1406,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2562,6 +2584,26 @@ mislabeled).</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Under the hood, an R <code>Date</code> is just a <strong>double storing the number of days
+since 1970-01-01</strong> (the Unix epoch) with a <code>"Date"</code> class attribute, and a
+<code>POSIXct</code> datetime is a double storing <strong>seconds</strong> since that same epoch.
+All the "date arithmetic" you do — subtracting two dates, adding <code>7</code> to
+get a week later — is genuinely just numeric arithmetic on these
+underlying doubles; the class attribute only controls how <code>print()</code> and
+<code>format()</code> <em>display</em> the number, via S3 methods that convert the raw
+day/second count back into a calendar representation using well-known
+calendar algorithms (accounting for leap years, days-per-month, etc.).</p>
+<p><code>lubridate</code>'s parsing functions like <code>ymd()</code> and <code>mdy()</code> work by taking
+your ambiguous string, applying a specific expected token order (year-
+month-day vs. month-day-year) via internal regex extraction, and handing
+the extracted numeric pieces to the same date-construction machinery base
+R uses — the value is in guessing separators and orderings robustly, not
+in a different underlying date representation. Time zones are handled by
+tagging a <code>POSIXct</code>'s stored epoch-seconds value with a <code>tzone</code> attribute
+that only affects <em>display</em> math (converting to local wall-clock time
+using the IANA tz database compiled into your OS) — the stored instant in
+time never changes when you change its printed time zone.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Given <code>signups &lt;- c("2024-01-05", "2024-01-20", "2024-02-14", "2024-02-15",
 "2024-03-01")</code>: parse them with <code>ymd()</code>, then use <code>floor_date()</code> with

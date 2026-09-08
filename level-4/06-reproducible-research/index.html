@@ -2052,6 +2052,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2480,6 +2502,23 @@ each project's <code>renv/library/</code> is its own full copy).</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>renv::init()</code> doesn't install packages into some private universal
+location — it creates a <strong>project-local library</strong> (a <code>renv/library/</code>
+folder) and rewrites <code>.libPaths()</code> for that project (via a generated
+<code>.Rprofile</code> that runs automatically every time R starts in that
+directory) so package resolution never falls back to your regular
+user-wide library. <code>renv::snapshot()</code> then records every package actually
+<em>used</em> in your project (detected by static analysis of your <code>library()</code>/
+<code>::</code> calls across your R files) along with its exact installed version and
+source (CRAN, GitHub, ...) into <code>renv.lock</code>, a JSON manifest.</p>
+<p><code>renv::restore()</code> reads that lockfile and reconstructs the identical
+project library on another machine — for CRAN packages it fetches the
+exact archived version from CRAN's version archive rather than "whatever
+is current," which is precisely how it produces bit-for-bit reproducible
+dependency environments regardless of when or where it's run, as opposed
+to a plain <code>install.packages()</code> which always resolves to whatever the
+CRAN mirror currently serves as latest.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Create a new project directory, run <code>renv::init(bare = TRUE)</code>, write

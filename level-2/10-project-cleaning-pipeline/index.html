@@ -1412,6 +1412,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#stretch-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#stretch-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2547,6 +2569,25 @@ your real data has enough such names to matter.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>[ FAIL 0 | WARN 0 | SKIP 0 | PASS 14 ]
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Structuring a project as small functions in <code>R/pipeline.R</code> rather than one
+long script isn't just style — it changes how R's evaluator handles
+variable scope: each function gets its own execution environment (as
+covered in Module 4), so intermediate cleaning variables inside
+<code>clean_data()</code> can't leak into or collide with variables inside
+<code>summarize_data()</code>, whereas a flat script shares one global environment
+for everything, where a stray reused variable name silently corrupts a
+later step.</p>
+<p><code>testthat::test_that()</code> tests that call your pipeline functions directly
+(rather than sourcing the whole script) work because sourcing <code>R/pipeline.R</code>
+only <em>defines</em> functions — it doesn't execute any pipeline logic — so the
+test file can load just the functions and feed them small synthetic inputs
+without needing the real <code>sales.csv</code> or any file I/O at all. This
+separation of "pure functions that transform data" from "the script that
+wires them to real files" is what makes each stage independently testable:
+a function that takes a data frame and returns a data frame has no hidden
+dependency on the filesystem, so <code>testthat</code> can call it with a two-row
+fixture and check the exact output deterministically.</p>
 <h2 id="stretch-goals">Stretch goals<a class="headerlink" href="#stretch-goals" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Add a <code>discount_pct</code> column to <code>orders_raw</code> and thread it through

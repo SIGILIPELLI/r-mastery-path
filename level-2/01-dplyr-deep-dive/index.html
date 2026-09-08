@@ -1193,6 +1193,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2597,6 +2619,24 @@ save you real debugging time.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>dplyr</code> verbs like <code>filter()</code>, <code>mutate()</code>, and <code>select()</code> work through
+<strong>non-standard evaluation (NSE)</strong>: when you write <code>filter(df, age &gt; 30)</code>,
+<code>age</code> is never evaluated as a free-standing variable in your environment —
+dplyr captures the <em>unevaluated expression</em> <code>age &gt; 30</code> (via R's quoting
+tools, <code>rlang</code>'s quasiquotation under the hood) and evaluates it in a
+special <strong>data mask</strong> environment where each column of <code>df</code> is exposed as
+if it were a variable. That's the entire mechanism behind writing
+<code>age &gt; 30</code> instead of <code>df$age &gt; 30</code>.</p>
+<p>The pipe <code>%&gt;%</code> (or base R's native <code>|&gt;</code>) is not a runtime operator that
+does something clever with function calls — it's a <strong>syntactic rewrite</strong>
+performed at parse time (for <code>|&gt;</code>) or by the <code>magrittr</code> package (for <code>%&gt;%</code>):
+<code>df %&gt;% filter(x) %&gt;% mutate(y)</code> is transformed into the ordinary nested
+call <code>mutate(filter(df, x), y)</code> before evaluation ever happens. There's no
+special "streaming" data structure — each stage still fully materializes
+its output data frame in memory before the next stage runs, which is why
+extremely long pipe chains on huge data can use noticeably more memory
+than a single combined operation would.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Using the <code>students</code> data frame above: find each grade's average score,
 sorted from highest to lowest average, but only among students in <code>year</code>

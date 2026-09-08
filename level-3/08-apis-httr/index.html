@@ -1732,6 +1732,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2452,6 +2474,27 @@ key is one accidental <code>git commit</code> away from leaking it.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>httr</code>/<code>httr2</code> build an HTTP request by constructing a request object
+(method, URL, headers, body) and handing it to <strong>libcurl</strong> — the same C
+library <code>curl</code> the command-line tool and countless other languages use —
+which R links against via a compiled interface (the <code>curl</code> package).
+libcurl handles the actual TCP connection, TLS handshake, and HTTP
+protocol framing; R's role is just building the request object correctly
+and parsing the raw response bytes libcurl hands back.</p>
+<p><code>GET()</code>/<code>POST()</code> are synchronous and <strong>blocking</strong>: the R process pauses at
+that line, doing nothing else, until the full response arrives or the
+request times out — there's no event loop unless you explicitly use an
+async-capable package. Response parsing (<code>content(resp, "parsed")</code>)
+inspects the <code>Content-Type</code> header to decide <em>how</em> to interpret the raw
+response bytes — JSON gets fed through <code>jsonlite</code>'s recursive descent
+parser (which builds R lists/vectors by walking the JSON token stream),
+while a JSON array of uniform objects gets coerced into a data frame by
+jsonlite auto-detecting that every object shares the same keys. Rate-limit
+handling you write yourself (checking <code>status_code() == 429</code> and
+<code>Sys.sleep()</code>) exists because none of this HTTP machinery has any built-in
+notion of API-specific rate limits — that logic is exactly as manual as
+retry logic in any other language's HTTP client.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>GET a resource from <code>jsonplaceholder.typicode.com</code> (any of <code>/users</code>,

@@ -1294,6 +1294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2541,6 +2563,26 @@ means "any character," not "a literal period."</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Base R strings are stored as <code>character</code> vectors where each element points
+to an entry in R's <strong>global string pool (CHARSXP cache)</strong> — a hash table
+the interpreter maintains so that identical strings appearing anywhere in
+your session share one underlying memory allocation rather than being
+duplicated. This is why comparing many repeated strings is cheap: R can
+often short-circuit equality by comparing pool pointers before ever
+comparing bytes.</p>
+<p><code>stringr</code> functions are thin, consistently-ordered (<code>str_*(string,
+pattern)</code>) wrappers around <strong>ICU</strong> (International Components for Unicode)
+regular-expression and string routines linked into R via the <code>stringi</code>
+package, rather than R's own base regex engine (POSIX extended or, with
+<code>perl = TRUE</code>, PCRE). That's why <code>stringr</code> handles Unicode case folding,
+locale-aware sorting, and multi-byte characters more consistently than
+base <code>grepl()</code>/<code>gsub()</code> — it's not "the same regex engine with a nicer
+API," it's a different, more complete engine underneath. Pattern matching
+itself works by compiling your regex string into a finite-state automaton
+once, then running that automaton over each input string's bytes — which
+is why using a pre-compiled pattern object over thousands of calls, where
+supported, avoids re-compiling the same regex repeatedly.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Given <code>emails &lt;- c("alice@example.com", "bob.smith@company.org",
 "not-an-email")</code>: use <code>str_detect()</code> with a regex pattern to build a

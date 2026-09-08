@@ -929,6 +929,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2559,6 +2581,23 @@ while <code>[[ ]]</code> returns the actual element inside:</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>An R vector is a contiguous block of memory holding elements of one type,
+plus a header carrying the length and, for named/typed data, an
+<code>attributes</code> list (that's how a plain "atomic vector" becomes a <code>factor</code> or
+gains <code>names</code> — attributes decorate the same underlying memory rather than
+wrapping it in a new structure). Because storage is contiguous, <code>x[3]</code>
+is O(1) pointer arithmetic, and arithmetic like <code>x * 2</code> is a tight C loop
+that walks the array once — no per-element interpreter overhead, which is
+the real reason vectors outperform loops.</p>
+<p><strong>Recycling</strong> — R silently repeating the shorter vector when you combine
+two of different lengths (<code>c(1,2,3,4) + c(1,2)</code> → <code>c(2,4,4,6)</code>) — isn't a
+convenience feature layered on top; it's baked into the C arithmetic
+routines themselves: they compute the output length as the max of the two
+input lengths and index into each input modulo its own length as they
+loop. A <code>list()</code>, by contrast, doesn't store elements contiguously by
+value — it's a vector of <em>pointers</em> to arbitrary SEXPs, which is exactly
+why a list can mix types and hold other vectors/lists without coercion.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Create a named vector <code>inventory</code> mapping three item names to their integer
 counts (e.g. <code>c(apples = 10, bananas = 0, cherries = 25)</code>). Use logical

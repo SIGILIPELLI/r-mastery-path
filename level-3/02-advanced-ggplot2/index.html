@@ -1564,6 +1564,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2447,6 +2469,25 @@ magnitudes at each x value.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Custom ggplot2 themes work by modifying a nested list of <code>element_*()</code>
+specification objects (<code>theme()</code> returns a <code>theme</code> object that's really a
+named list of drawing instructions — line widths, colors, margins) that
+gets merged with the currently active default theme via <strong>inheritance
+rules</strong>: each element can inherit unset properties from a parent element
+(e.g. <code>axis.text</code> inherits from <code>text</code> unless overridden), resolved at
+render time by walking this inheritance graph before any pixel is drawn.
+This is why setting <code>text = element_text(family = "serif")</code> cascades to
+axis labels, titles, and legends simultaneously — they're all descendants
+in that same inheritance tree.</p>
+<p>Faceting (<code>facet_wrap()</code>/<code>facet_grid()</code>) works by first computing, from
+your faceting variable(s), the full set of unique panel combinations and
+their layout grid position, then re-running the entire per-layer
+stat/scale/geom rendering pipeline (from Module 4) independently <em>within
+each panel</em>, but sharing scale ranges across panels by default so panels
+stay visually comparable — that shared-scale computation is why faceting
+a plot with <code>scales = "free"</code> renders noticeably differently: each panel
+gets its own independently-computed axis range instead of one global one.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Take the <code>sales</code> tibble above and facet it by <code>region</code> with

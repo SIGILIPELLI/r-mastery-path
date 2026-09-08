@@ -1912,6 +1912,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2476,6 +2498,25 @@ algorithm from multiple random starts and keep the best result.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Mixed-effects models (<code>lme4::lmer()</code>) extend ordinary least squares by
+estimating both fixed effects and random effects' variance components
+simultaneously — internally, <code>lmer()</code> maximizes a <strong>profiled restricted
+likelihood</strong> by iteratively updating a sparse Cholesky factorization of
+the random-effects covariance structure (using highly optimized sparse
+linear algebra, since random-effect design matrices are mostly zeros), an
+optimization loop that's far more numerically delicate than <code>lm()</code>'s
+single QR solve — which is why <code>lmer()</code> fits can throw convergence
+warnings that <code>lm()</code> never would.</p>
+<p>Principal component analysis (<code>prcomp()</code>) computes principal components by
+taking the <strong>singular value decomposition (SVD)</strong> of the (centered, and
+optionally scaled) data matrix directly, rather than eigendecomposing the
+covariance matrix — SVD is numerically more stable, especially when
+variables are on very different scales or nearly collinear. The resulting
+right singular vectors <em>are</em> the principal component loadings, and the
+singular values, squared and normalized, give the proportion of variance
+explained — <code>summary()</code> on a <code>prcomp</code> object is just formatting these
+already-computed SVD quantities.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Simulate four groups where three share a mean and one is clearly

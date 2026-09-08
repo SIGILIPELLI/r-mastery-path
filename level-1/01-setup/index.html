@@ -806,6 +806,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2492,6 +2514,26 @@ installation, all of which matter a lot for data analysis. <strong>VS Code</stro
 the "R" extension is a lighter-weight alternative if you already live in VS
 Code for other languages. Either is fine to start; RStudio is what almost all
 R tutorials and documentation assume, so it's the path of least friction.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>When you type a line into the R console and hit Enter, you're talking to
+<strong>R's REPL</strong> (read-eval-print loop): it reads your text, parses it into an
+abstract syntax tree, evaluates that tree against the current environment,
+and prints the result (unless it's invisible, like from <code>&lt;-</code>). RStudio adds
+a GUI around this same loop — the "Console" pane <em>is</em> that REPL process,
+just embedded in a window with syntax highlighting and a variable inspector
+bolted on.</p>
+<p>R itself is written mostly in C and Fortran (the core interpreter, memory
+manager, and many numeric routines) with a thin R-level standard library on
+top. When you install R, you're installing this compiled interpreter binary
+plus the base packages (<code>base</code>, <code>stats</code>, <code>utils</code>, ...) that ship with every
+R distribution. When you later run <code>install.packages("dplyr")</code>, R downloads
+source or pre-compiled binary code from CRAN and places it in your
+<strong>library</strong> — a directory tree R searches (<code>.libPaths()</code>) every time a
+<code>library()</code> call needs to resolve a package name to actual compiled/R code
+on disk.</p>
+<p>RStudio's "Environment" pane isn't magic either — it's polling the same
+global environment (<code>globalenv()</code>) that <code>ls()</code> would show you from the
+console, refreshing after each top-level statement completes.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Write a script <code>greet.R</code> that creates a variable holding your name, then
 prints a greeting that includes it using both <code>cat()</code> and <code>print()</code> so you can

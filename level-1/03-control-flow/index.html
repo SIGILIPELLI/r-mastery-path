@@ -862,6 +862,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2510,6 +2532,24 @@ next case's value — a concise way to group several inputs under one result.</p
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>if</code>, <code>for</code>, and <code>while</code> in R are not special syntax bolted onto an
+otherwise-functional language — they are themselves <strong>functions</strong> (you can
+literally call <code>`if`(TRUE, "a", "b")</code> and get <code>"a"</code> back). The parser
+turns your <code>if (cond) expr1 else expr2</code> into a call object
+<code>`if`(cond, expr1, expr2)</code>, and evaluating it dispatches to a C-level
+primitive that checks whether <code>cond</code> reduces to a single <code>TRUE</code>/<code>FALSE</code>
+(anything else — a vector of length &gt; 1, <code>NA</code>, <code>NULL</code> — is an error in
+current R, once just a warning).</p>
+<p><code>for</code> loops in R are famously slower than vectorized alternatives because
+each iteration re-evaluates the loop body through the full R interpreter
+loop — parse tree walk, environment lookup, function dispatch — for every
+single element, with no compiled specialization. A vectorized call like
+<code>x + 1</code> instead drops straight into a single C loop that iterates over the
+whole vector without going back through the R evaluator between elements.
+That's the mechanical reason "vectorize instead of loop" is R's most
+repeated performance advice: it's not style, it's the difference between
+one interpreter dispatch and thousands.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Write a script that loops over the vector <code>nums &lt;- c(4, 15, 8, 23, 42, 7)</code>
 with a <code>for</code> loop, printing <code>"even"</code> or <code>"odd"</code> for each number. Then rewrite

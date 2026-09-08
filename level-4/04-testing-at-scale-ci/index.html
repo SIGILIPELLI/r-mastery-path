@@ -2007,6 +2007,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2541,6 +2563,26 @@ Actions will mark the job green.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>A GitHub Actions CI job running <code>R CMD check</code> starts from a bare
+virtual machine, so the workflow file has to reconstruct your entire
+dependency chain (R version, system libraries, CRAN packages) from
+scratch — <code>r-lib/actions</code> does this by parsing your <code>DESCRIPTION</code>'s
+<code>Imports</code>/<code>Suggests</code> and calling <code>install.packages()</code> (or a binary package
+cache) for each one, in dependency order, before your code is ever
+touched, which is why CI runs are slow the first time a dependency
+changes but fast once caching (keyed on a hash of <code>DESCRIPTION</code>) kicks in.</p>
+<p>Matrix builds (testing across R versions/OSes in parallel jobs) exist
+because R's ABI and some base behaviors do change subtly between versions,
+and OS-level differences (Windows path separators, macOS vs. Linux
+compiled-dependency availability) can break a package that only ever ran
+on one developer's machine — each matrix cell is a genuinely separate,
+isolated VM, so a failure on <code>windows-latest</code> but not <code>ubuntu-latest</code>
+usually points to something OS-specific (case-sensitive paths, a missing
+system library) rather than a bug in your R logic itself. Code coverage
+uploaded to a service like Codecov works from the <code>covr</code>-instrumented
+per-line hit counts described in Module 9, merged across whichever matrix
+cell(s) you configure to report coverage.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Write a function <code>is_palindrome(x)</code> that checks whether a string reads

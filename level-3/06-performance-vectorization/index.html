@@ -1676,6 +1676,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2447,6 +2469,27 @@ read for a performance gain that may not even materialize.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>The reason <code>x + 1</code> beats <code>for (i in seq_along(x)) x[i] + 1</code> isn't just
+"fewer lines" — it's the difference between one R-level operation that
+dispatches <em>once</em> into a compiled C loop (which then iterates the entire
+vector using raw pointer arithmetic with no further interpreter
+involvement) versus an R <code>for</code> loop, which re-enters the full R evaluator
+for every single iteration: parsing the loop body's call tree, resolving
+<code>x</code> and <code>i</code> by environment lookup, dispatching the <code>+</code> generic, and writing
+back a result — each of those steps carries fixed overhead that dominates
+when the actual arithmetic is trivial.</p>
+<p><code>Rprof()</code>/<code>profvis</code> work by <strong>statistical sampling</strong>: at a fixed interval
+(default 10-20ms), R's profiler interrupts execution and records the
+current call stack, building a histogram of which functions were "on the
+stack" most often across the whole run — that's why profiling very fast
+code needs many repetitions (<code>microbenchmark</code>) to get a statistically
+meaningful sample, and why the profiler itself never sees the exact time
+any single call took, only how often it was caught executing. Memory
+profiling (<code>Rprof(memory.profiling = TRUE)</code>) additionally hooks R's
+garbage collector to log allocation events between samples, revealing
+where unexpected copies (from the copy-on-modify rules in Module 2) are
+actually happening.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Write a loop-based and a vectorized version of a function that

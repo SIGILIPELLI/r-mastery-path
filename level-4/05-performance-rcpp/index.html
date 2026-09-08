@@ -2024,6 +2024,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2484,6 +2506,26 @@ wrong.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>Rcpp</code> lets you write C++ functions callable from R by generating <strong>glue
+code</strong>: <code>cppFunction()</code>/<code>sourceCpp()</code> parse your C++ source, detect the
+<code>// [[Rcpp::export]]</code> marker, and generate a wrapper that converts R SEXPs
+(the same underlying representation from Module 2) into C++ types like
+<code>Rcpp::NumericVector</code> — which is really a thin C++ class wrapping a
+pointer directly into R's own memory, not a copy — compiles everything
+with your system's C++ compiler, and dynamically loads the resulting
+shared library into the running R session so the exported function becomes
+callable like any other R function.</p>
+<p>The performance win is mechanical: your loop now runs as genuinely
+compiled machine code with no R-evaluator dispatch per iteration at all
+(unlike even a vectorized R call, which still pays one dispatch to enter
+the C routine) — for tight numeric loops, that difference compounds
+across millions of iterations. But because <code>NumericVector</code> often wraps R's
+memory directly rather than copying it, mutating it in place inside C++
+can violate R's copy-on-modify guarantees if you're not careful — which is
+why Rcpp idioms favor <code>clone()</code>ing input vectors you intend to mutate,
+mirroring the exact copy-on-modify discipline R itself enforces at the
+R level.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Write an Rcpp function <code>running_max_cpp(x)</code> that returns a vector

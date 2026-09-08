@@ -2136,6 +2136,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2276,6 +2287,17 @@
     <span class="md-ellipsis">
       
         Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2483,6 +2505,24 @@ NOTE you have no way to reproduce without a service like R-hub.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>CRAN's submission process isn't a manual review of your code's logic — it
+runs your package through <strong>automated <code>R CMD check --as-cran</code></strong> on
+multiple platforms (Windows, macOS, several Linux flavors, and both
+release and development R versions) in CRAN's own infrastructure, checking
+things a human reviewer wouldn't scale to: examples that must run within a
+time budget, no writing outside <code>tempdir()</code> during checks, correct
+<code>Encoding</code> declarations, and no undeclared dependencies — because your
+package's <code>NAMESPACE</code> and <code>DESCRIPTION</code> are the <em>only</em> things CRAN's
+automated tooling can statically verify without executing arbitrary
+untrusted code from every submission.</p>
+<p>Once accepted, CRAN mirrors your package's source tarball across its
+global mirror network and rebuilds binary versions for Windows/macOS
+using its own build farm — this is why a source-only submission can take
+a day or two to appear as an installable binary on other platforms, and
+why a package that only compiles on your machine (an undeclared system
+library dependency, e.g.) fails silently for users elsewhere until CRAN's
+build farm catches it and the maintainer is notified to fix it.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Add a second exported function to the example package (e.g.

@@ -2091,6 +2091,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2483,6 +2505,26 @@ than sample it (Fix 2) whenever tail behavior is the point of the plot.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Rendering thousands to millions of points with <code>ggplot2</code> slows down
+because every geometric primitive still goes through the same
+grid-graphics grob pipeline from Module 4 — each point becomes an
+individual drawable object the graphics device has to process, and vector
+output formats (PDF/SVG) end up storing one drawing instruction per point,
+producing enormous files. Techniques like <code>geom_hex()</code>/<code>geom_bin2d()</code>
+sidestep this by first <strong>aggregating</strong> raw points into a coarser grid of
+bins (a single pass computing counts per bin, same mechanism as
+<code>dplyr::group_by()</code>'s hashed grouping) and drawing only that much smaller
+set of summary shapes — the visual cost becomes proportional to the number
+of bins, not the number of raw rows.</p>
+<p>Interactive/scalable alternatives (<code>plotly</code>, rendering to a raster PNG
+device instead of vector PDF for dense scatter plots) work by changing
+<em>where</em> the pixel-density cost is paid: a raster device rasterizes each
+point to actual pixels once at a fixed resolution (further points just
+overdraw the same pixel, so file size stays bounded regardless of point
+count), while <code>plotly</code> converts the ggplot object into a JSON
+specification that a JavaScript/WebGL renderer draws in the browser using
+GPU-accelerated primitives rather than R's CPU-bound graphics device.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Generate a data frame of 500,000 points from two overlapping normal

@@ -901,6 +901,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2552,6 +2574,24 @@ inputs and returns a new value.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Every R function carries its own <strong>environment</strong> — the environment active
+where it was <em>defined</em>, not where it's called from (lexical scoping). When
+you call a function, R creates a brand-new execution environment whose
+<em>parent</em> is the function's enclosing environment, binds the arguments into
+it, and evaluates the body there. This is why a function can "see" a
+variable from where it was written even when called from somewhere else
+entirely, and why two calls to the same function never share local
+variables — each call gets a fresh environment.</p>
+<p>Arguments in R are <strong>lazily evaluated</strong> via <em>promises</em>: when you call
+<code>f(x = long_computation())</code>, R doesn't run <code>long_computation()</code> immediately.
+It creates a promise object recording the unevaluated expression and the
+caller's environment, and only forces (evaluates) it the first time <code>x</code> is
+actually referenced inside <code>f</code>'s body — and then caches the result, so it's
+never computed twice. This is how <code>missing()</code> can detect an unsupplied
+argument, and how default arguments can reference other arguments
+(<code>function(x, y = x * 2)</code>) — <code>x * 2</code> is just another unevaluated promise
+until <code>y</code> is touched.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Write a function <code>bmi(weight_kg, height_m)</code> that returns the body mass index
 (<code>weight_kg / height_m^2</code>), rounded to 1 decimal place with <code>round()</code>. Give

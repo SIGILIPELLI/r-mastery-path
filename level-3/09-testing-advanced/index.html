@@ -1749,6 +1749,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2430,6 +2452,23 @@ a test that can't always run hides the fact that coverage has a gap.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Mocking in <code>testthat</code> (via <code>local_mocked_bindings()</code> or the older
+<code>with_mock()</code>) works by temporarily <strong>rebinding a name inside a package's
+namespace environment</strong> for the duration of a test — because R resolves a
+function call by looking the name up in the calling function's enclosing
+environment chain, swapping what that name points to (even just for one
+test's scope, restored automatically afterward) makes every call to that
+function inside the code under test transparently use the mock instead,
+with no need to change the code being tested at all.</p>
+<p>Code coverage tools (<code>covr</code>) work by instrumenting your functions'
+byte-compiled or parsed expressions with tracing hooks <em>before</em> running
+your test suite — each expression gets wrapped so that executing it also
+increments a hit counter recorded against that specific line — then runs
+the full test suite once and reports which lines' counters stayed at
+zero. This is a real execution trace, not static analysis: a line can be
+syntactically reachable but still show as uncovered if no test path
+actually executes it, which is the whole point of a coverage report.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Take a function that calls another function you don't want to

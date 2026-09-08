@@ -1704,6 +1704,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2478,6 +2500,25 @@ function but users can't call it" bugs happen — check for a missing
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>R CMD check</code>, the gate CRAN and most CI pipelines run, doesn't just "look
+for errors" — it performs a fixed sequence of independent checks: parsing
+<code>DESCRIPTION</code> for valid metadata, byte-compiling every function in <code>R/</code> to
+catch syntax errors, cross-referencing <code>NAMESPACE</code> exports against actual
+function names, running every example in your <code>.Rd</code> docs as real R code,
+executing your test suite, and (optionally) building the vignettes with
+Pandoc — each check is its own subprocess, which is why a single check
+failing (like an undocumented argument) doesn't prevent the others from
+running and reporting separately.</p>
+<p><code>usethis::use_package("dplyr")</code> doesn't install anything — it edits your
+<code>DESCRIPTION</code>'s <code>Imports:</code> field, which only records a <em>declared
+dependency</em>; nothing forces you to actually call <code>dplyr::</code> functions
+correctly until <code>R CMD check</code> tries to load your namespace and verifies
+every function referenced via <code>pkg::fun()</code> or <code>@importFrom</code> actually
+exists in that dependency's installed namespace. This static
+cross-referencing (not a runtime check) is exactly why a typo'd function
+name from an imported package is caught at <code>check</code> time rather than only
+when a user happens to trigger that code path.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Create a minimal package with one exported function of your own,

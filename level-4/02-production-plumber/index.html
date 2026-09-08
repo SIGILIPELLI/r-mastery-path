@@ -1940,6 +1940,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2473,6 +2495,26 @@ happened to still have it in memory.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>plumber</code> turns roxygen-style comment annotations (<code>#* @get /path</code>) above
+your R functions into an HTTP routing table at parse time: it scans your
+source file's comments with a regex-based parser, builds a mapping from
+HTTP method + path pattern to the R function immediately following that
+comment block, then starts an embedded HTTP server (built on the <code>httpuv</code>
+package, which itself wraps the C <code>libuv</code> event loop library) that
+dispatches each incoming request to the matched function, converts the
+function's return value to JSON via <code>jsonlite</code>, and writes the HTTP
+response.</p>
+<p>Because <code>httpuv</code>'s event loop is single-threaded by default, a plumber API
+handles requests <strong>one at a time</strong> unless you explicitly run multiple R
+processes behind a load balancer (or use plumber's newer async support) —
+a slow handler (like a model prediction that takes a full second) blocks
+every other concurrent request during that second, which is precisely why
+production deployments run several plumber processes behind something like
+Nginx rather than relying on a single R process to handle real concurrent
+load. Request bodies (JSON payloads) are parsed by the same <code>jsonlite</code>
+recursive-descent parser used by <code>httr</code>, converting posted JSON directly
+into R lists/data frames your handler function receives as arguments.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Write a <code>plumber.R</code> with a <code>@get /square</code> route that takes a numeric

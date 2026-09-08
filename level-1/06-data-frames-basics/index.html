@@ -957,6 +957,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2523,6 +2545,23 @@ more readably in <a href="../../level-2/01-dplyr-deep-dive/">Level 2</a>.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>A data frame is not a 2-D matrix under the hood — it's a <code>list</code> of
+equal-length vectors (one per column) with a <code>class</code> attribute of
+<code>"data.frame"</code> and a <code>row.names</code> attribute, plus S3 methods that make it
+<em>print</em> and <em>index</em> like a table. <code>df$col</code> is really <code>`[[`(df, "col")</code>
+returning that column's underlying vector directly (no copy). <code>df[1, ]</code>,
+by contrast, goes through the <code>[.data.frame</code> S3 method, which has to
+rebuild a whole new (one-row) list from scratch — this is one reason
+row-wise operations on data frames are much slower than column-wise ones:
+column access is native list indexing, row access requires reconstructing
+a mini data frame every time.</p>
+<p>Because each column is an independent vector, mixed types across columns
+are free (numeric here, character there) but a single column is still a
+homogeneous atomic vector — assigning a character into a numeric column
+triggers the same coercion rules as any other vector, silently converting
+the whole column. <code>str()</code> works by walking this list-of-vectors structure
+and reporting each element's class and a peek at its values.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Create a data frame <code>products</code> with columns <code>name</code> (character), <code>price</code>
 (numeric), and <code>category</code> (character) for 5 made-up products across 2

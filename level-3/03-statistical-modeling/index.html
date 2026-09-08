@@ -1614,6 +1614,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2517,6 +2539,26 @@ the default output.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>lm()</code> doesn't solve the normal equations <code>(XᵀX)β = Xᵀy</code> directly by
+inverting <code>XᵀX</code> — that's numerically unstable when predictors are
+correlated. Internally, <code>lm()</code> computes a <strong>QR decomposition</strong> of the
+design matrix <code>X</code> (factoring it into an orthogonal matrix <code>Q</code> and an
+upper-triangular matrix <code>R</code>, via LAPACK's Householder-reflection routines
+compiled into R), then solves the much simpler triangular system
+<code>Rβ = Qᵀy</code> by back-substitution. This is both faster and dramatically more
+numerically stable than forming and inverting <code>XᵀX</code>, which is why <code>lm()</code>
+can still produce a (with a warning) sensible fit even with mild
+multicollinearity where naive matrix inversion would blow up.</p>
+<p><code>glm()</code> extends this with <strong>iteratively reweighted least squares (IRLS)</strong>:
+because a logistic or Poisson model's likelihood isn't linear in the
+coefficients, <code>glm()</code> runs a loop that (1) linearizes the model around
+current coefficient estimates, (2) solves a weighted least-squares problem
+(again via QR) to get updated coefficients, and (3) repeats until the
+coefficients stop changing meaningfully (convergence) — the "iterations"
+message you sometimes see is literally counting these IRLS loop passes.
+Every coefficient's standard error, in turn, comes from the diagonal of
+the estimated covariance matrix derived from that same <code>R</code> factor.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Simulate a predictor <code>x</code> and outcome <code>y</code> with a known slope, fit
