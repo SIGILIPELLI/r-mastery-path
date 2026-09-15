@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A structured, module-wise R training program from entry level to master level, focused on data analysis and statistics.">
+        <meta name="description" content="Reading Data — read.csv() handles the common case well: it assumes a header row, comma separators, and infers each column's type automatically.">
       
       
       
@@ -67,14 +67,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="R Mastery Path">
   <meta property="og:title" content="07 · Reading Data">
-  <meta property="og:description" content="A structured, module-wise R training program from entry level to master level — free, with runnable code in every module, focused on data analysis and statistics.">
+  <meta property="og:description" content="Reading Data — read.csv() handles the common case well: it assumes a header row, comma separators, and infers each column's type automatically.">
   <meta property="og:url" content="https://sigilipelli.github.io/r-mastery-path/level-1/07-reading-data/">
   <meta property="og:image" content="https://sigilipelli.github.io/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="07 · Reading Data">
-  <meta name="twitter:description" content="A structured, module-wise R training program from entry level to master level — free, with runnable code in every module, focused on data analysis and statistics.">
+  <meta name="twitter:description" content="Reading Data — read.csv() handles the common case well: it assumes a header row, comma separators, and infers each column's type automatically.">
   <meta name="twitter:image" content="https://sigilipelli.github.io/og-image.png">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9440969811959397"
      crossorigin="anonymous"></script>
@@ -973,6 +973,17 @@
     <span class="md-ellipsis">
       
         How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-this-in-another-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 See this in another language
       
     </span>
   </a>
@@ -2333,6 +2344,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#see-this-in-another-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 See this in another language
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2514,6 +2536,12 @@ directly into the guessed types using compiled C++ (via Rcpp) rather than
 R-level loops — no full re-scan-and-coerce pass, and no factor conversion
 step to worry about. That's the mechanical reason it's both faster and
 more predictable on large files.</p>
+<h2 id="see-this-in-another-language">🔀 See this in another language<a class="headerlink" href="#see-this-in-another-language" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://sigilipelli.github.io/matlab-mastery-path/level-1/07-data-files/">MATLAB — Working with Data Files</a></li>
+<li><a href="https://sigilipelli.github.io/javascript-mastery-path/level-1/07-dom-events/">JavaScript — DOM Basics &amp; Events</a></li>
+<li><a href="https://sigilipelli.github.io/rust-mastery-path/level-1/07-error-handling-basics/">Rust — Error Handling Basics (Option, Result)</a></li>
+</ul>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Create a small CSV file <code>scores.csv</code> by hand (a text editor or <code>cat()</code> from
 R) with columns <code>student,subject,score</code> and at least 6 rows across 2
@@ -2526,6 +2554,9 @@ rows where <code>score &gt;= 80</code>, and write the filtered result to a new f
 
 
 
+
+  
+  
 
 
 
