@@ -1,3 +1,7 @@
+---
+description: "Performance & Vectorization — R's most common performance mistake isn't a slow algorithm — it's writing loops in a language whose operators are already…"
+---
+
 # 06 · Performance & Vectorization
 
 R's most common performance mistake isn't a slow algorithm — it's writing

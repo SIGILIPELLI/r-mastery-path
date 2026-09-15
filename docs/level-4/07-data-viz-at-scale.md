@@ -1,3 +1,7 @@
+---
+description: "Data Visualization at Scale — ggplot2 scales visually to any dataset — the code to plot 200,000 points is identical to the code for 200. What doesn't…"
+---
+
 # 07 · Data Visualization at Scale
 
 `ggplot2` scales visually to any dataset — the code to plot 200,000

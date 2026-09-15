@@ -1,3 +1,7 @@
+---
+description: "Advanced Testing with testthat — Level 2 covered basic testthat expectations. Real code under test usually touches something you don't want a test suite…"
+---
+
 # 09 · Advanced Testing with testthat
 
 Level 2 covered basic `testthat` expectations. Real code under test

@@ -1,3 +1,7 @@
+---
+description: "Basic Plotting — Base R ships with a capable plotting system, no packages required. plot() adapts its behavior to the type of data you give it."
+---
+
 # 08 · Basic Plotting
 
 ## `plot()` — R's built-in plotting function
@@ -153,6 +157,12 @@ pixel writes for PNG, vector path commands for PDF/SVG. This is also why
 resizing an RStudio plot pane after the fact can shift text and point
 sizes: the device is re-rendered at the new dimensions from the same
 recorded calls, not simply scaled as an image.
+
+## 🔀 See this in another language
+
+- [MATLAB — String & Text Processing](https://sigilipelli.github.io/matlab-mastery-path/level-1/08-string-text-processing/)
+- [JavaScript — Error Handling Basics](https://sigilipelli.github.io/javascript-mastery-path/level-1/08-error-handling/)
+- [Rust — Pattern Matching](https://sigilipelli.github.io/rust-mastery-path/level-1/08-pattern-matching/)
 
 ## Exercise
 

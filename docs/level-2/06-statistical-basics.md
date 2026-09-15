@@ -1,3 +1,7 @@
+---
+description: "Statistical Basics — R was built by statisticians, for statistics — this is the one language where 'run a t-test' or 'fit a linear regression' is a single…"
+---
+
 # 06 · Statistical Basics
 
 R was built by statisticians, for statistics — this is the one language

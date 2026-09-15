@@ -1,3 +1,7 @@
+---
+description: "Advanced ggplot2 — Level 2 covered the ggplot2 grammar — aes(), geoms, and basic themes. This module covers the tools you reach for once a single scatter…"
+---
+
 # 02 · Advanced ggplot2
 
 Level 2 covered the `ggplot2` grammar — `aes()`, geoms, and basic themes.

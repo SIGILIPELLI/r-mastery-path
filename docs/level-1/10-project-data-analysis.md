@@ -1,3 +1,7 @@
+---
+description: "Project — Data Analysis Script — A small end-to-end project combining everything from Level 1: variables, control flow, functions, vectors, data frames…"
+---
+
 # 10 · Project — Data Analysis Script
 
 A small end-to-end project combining everything from Level 1: variables,
@@ -196,3 +200,9 @@ CSV once loaded.
   zero in `revenue_per_unit`)?
 
 Completing this project means you're ready for **Level 2 · Intermediate**.
+
+## 🔀 See this in another language
+
+- [MATLAB — Project — Data Analysis & Plotting Script](https://sigilipelli.github.io/matlab-mastery-path/level-1/10-project-data-analysis/)
+- [JavaScript — Project — Browser To-Do List App](https://sigilipelli.github.io/javascript-mastery-path/level-1/10-project-todo-app/)
+- [Rust — Project — CLI To-Do App](https://sigilipelli.github.io/rust-mastery-path/level-1/10-project-todo-cli/)

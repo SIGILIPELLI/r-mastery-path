@@ -1,3 +1,7 @@
+---
+description: "ggplot2 Basics — Level 1's base plotting (plot(), barplot(), hist()) is quick and dependency-free, but each function has its own quirky set of arguments…"
+---
+
 # 04 · ggplot2 Basics
 
 [Level 1's base plotting](../level-1/08-basic-plotting.md) (`plot()`,

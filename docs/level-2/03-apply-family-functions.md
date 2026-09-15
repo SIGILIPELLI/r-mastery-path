@@ -1,3 +1,7 @@
+---
+description: "Apply Family Functions — seq_along(nums) (not 1:length(nums)) is the safe way to index a loop — if nums were empty, 1:length(nums) becomes 1:0, which is…"
+---
+
 # 03 · Apply Family Functions
 
 R vectorizes most arithmetic automatically (`x + 1` adds 1 to every

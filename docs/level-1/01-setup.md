@@ -1,3 +1,7 @@
+---
+description: "Setup & First Script — R is the language and runtime; RStudio is the most popular IDE for working with it. Install both."
+---
+
 # 01 · Setup & First Script
 
 ## Install R
@@ -172,6 +176,12 @@ on disk.
 RStudio's "Environment" pane isn't magic either — it's polling the same
 global environment (`globalenv()`) that `ls()` would show you from the
 console, refreshing after each top-level statement completes.
+
+## 🔀 See this in another language
+
+- [MATLAB — What Is MATLAB?](https://sigilipelli.github.io/matlab-mastery-path/level-1/01-what-is-matlab/)
+- [JavaScript — Setup & First Program](https://sigilipelli.github.io/javascript-mastery-path/level-1/01-setup/)
+- [Rust — Setup & First Program](https://sigilipelli.github.io/rust-mastery-path/level-1/01-setup/)
 
 ## Exercise
 

@@ -1,3 +1,7 @@
+---
+description: "Package Development Basics — Every function you've written so far has lived in a single script, loaded with library() calls at the top and source() if…"
+---
+
 # 07 · Package Development Basics
 
 Every function you've written so far has lived in a single script, loaded

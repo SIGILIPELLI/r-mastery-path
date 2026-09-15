@@ -1,3 +1,7 @@
+---
+description: "Working with Big Data in R (data.table) — data.frame and dplyr are fine until a dataset gets into the millions-of-rows range, where their overhead…"
+---
+
 # 08 · Working with Big Data in R (data.table)
 
 `data.frame` and `dplyr` are fine until a dataset gets into the

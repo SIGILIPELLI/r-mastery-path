@@ -1,3 +1,7 @@
+---
+description: "Variables & Types — R's idiomatic assignment operator is <-, though = works identically at the top level (they diverge in edge cases, e.g. inside…"
+---
+
 # 02 · Variables & Types
 
 ## Assignment
@@ -202,6 +206,12 @@ coercion (e.g. `TRUE + 1`) works because R defines an implicit hierarchy —
 logical < integer < double < character — and silently promotes the
 "lower" type to the "higher" one before the operation runs, using
 internal C coercion routines rather than any R-level `if` logic.
+
+## 🔀 See this in another language
+
+- [MATLAB — Variables & Basic Data Types](https://sigilipelli.github.io/matlab-mastery-path/level-1/02-variables-types/)
+- [JavaScript — Variables, Data Types & Operators](https://sigilipelli.github.io/javascript-mastery-path/level-1/02-variables-data-types/)
+- [Rust — Variables, Types & Ownership Basics](https://sigilipelli.github.io/rust-mastery-path/level-1/02-variables-types-ownership/)
 
 ## Exercise
 

@@ -1,3 +1,7 @@
+---
+description: "Shiny Basics — Every R script so far runs top to bottom and stops. Shiny turns an R script into an interactive web app: a user moves a slider or picks a…"
+---
+
 # 05 · Shiny Basics
 
 Every R script so far runs top to bottom and stops. **Shiny** turns an R

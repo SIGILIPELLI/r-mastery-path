@@ -1,3 +1,7 @@
+---
+description: "Writing Functions & Package Structure — Level 1 covered the mechanics of writing a function — parameters, defaults, return values, scope. This module goes…"
+---
+
 # 07 · Writing Functions & Package Structure
 
 [Level 1](../level-1/04-functions.md) covered the mechanics of writing a

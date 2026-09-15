@@ -1,3 +1,7 @@
+---
+description: "Calling APIs with httr — Most real-world data doesn't arrive as a tidy CSV — it comes from a web API you query over HTTP. This module uses httr to make…"
+---
+
 # 08 · Calling APIs with httr
 
 Most real-world data doesn't arrive as a tidy CSV — it comes from a web

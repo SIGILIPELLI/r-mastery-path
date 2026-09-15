@@ -1,3 +1,7 @@
+---
+description: "Production R with plumber — Everything so far has run in a script or console. plumber turns an R file into an HTTP API by reading special #* comments…"
+---
+
 # 02 · Production R with plumber
 
 Everything so far has run in a script or console. `plumber` turns an R

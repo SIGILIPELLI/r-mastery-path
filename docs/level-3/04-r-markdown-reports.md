@@ -1,3 +1,7 @@
+---
+description: "R Markdown Reports — Every module so far has run R code and shown you the output separately. R Markdown (.Rmd) files combine narrative text, R code, and…"
+---
+
 # 04 · R Markdown Reports
 
 Every module so far has run R code and shown you the output separately.

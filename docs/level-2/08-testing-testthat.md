@@ -1,3 +1,7 @@
+---
+description: "Testing with testthat — Manually re-running a function on a couple of examples every time you change it doesn't scale — and it's easy to forget an edge…"
+---
+
 # 08 · Testing with testthat
 
 Manually re-running a function on a couple of examples every time you

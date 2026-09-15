@@ -1,3 +1,7 @@
+---
+description: "Capstone Project — This project pulls together every Level 4 module into one small but complete system: a data.table-backed pipeline that generates and…"
+---
+
 # 10 · Capstone Project
 
 This project pulls together every Level 4 module into one small but

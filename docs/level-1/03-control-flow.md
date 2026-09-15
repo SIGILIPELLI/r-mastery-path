@@ -1,3 +1,7 @@
+---
+description: "Control Flow — if in R takes a single logical value (length 1). Passing a longer vector triggers a warning (or an error, in recent R versions) — use &&/||…"
+---
+
 # 03 · Control Flow
 
 ## `if` / `else if` / `else`
@@ -183,6 +187,12 @@ whole vector without going back through the R evaluator between elements.
 That's the mechanical reason "vectorize instead of loop" is R's most
 repeated performance advice: it's not style, it's the difference between
 one interpreter dispatch and thousands.
+
+## 🔀 See this in another language
+
+- [MATLAB — Vectors & Matrix Operations](https://sigilipelli.github.io/matlab-mastery-path/level-1/03-vectors-matrices/)
+- [JavaScript — Control Flow](https://sigilipelli.github.io/javascript-mastery-path/level-1/03-control-flow/)
+- [Rust — Control Flow](https://sigilipelli.github.io/rust-mastery-path/level-1/03-control-flow/)
 
 ## Exercise
 

@@ -1,3 +1,7 @@
+---
+description: "Statistical Modeling — R's modeling functions all share a common interface — a formula (y ~ x) and a data argument — whether you're fitting a straight…"
+---
+
 # 03 · Statistical Modeling
 
 R's modeling functions all share a common interface — a `formula` (`y ~

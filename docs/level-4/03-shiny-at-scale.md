@@ -1,3 +1,7 @@
+---
+description: "Shiny at Scale (Modules) — A Shiny app that started as one app.R file gets unmanageable fast once it has a dozen inputs feeding a dozen outputs — every…"
+---
+
 # 03 · Shiny at Scale (Modules)
 
 A Shiny app that started as one `app.R` file gets unmanageable fast once

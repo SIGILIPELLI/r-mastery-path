@@ -1,3 +1,7 @@
+---
+description: "Reading Data — read.csv() handles the common case well: it assumes a header row, comma separators, and infers each column's type automatically."
+---
+
 # 07 · Reading Data
 
 ## Base R: `read.csv()`
@@ -145,6 +149,12 @@ directly into the guessed types using compiled C++ (via Rcpp) rather than
 R-level loops — no full re-scan-and-coerce pass, and no factor conversion
 step to worry about. That's the mechanical reason it's both faster and
 more predictable on large files.
+
+## 🔀 See this in another language
+
+- [MATLAB — Working with Data Files](https://sigilipelli.github.io/matlab-mastery-path/level-1/07-data-files/)
+- [JavaScript — DOM Basics & Events](https://sigilipelli.github.io/javascript-mastery-path/level-1/07-dom-events/)
+- [Rust — Error Handling Basics (Option, Result)](https://sigilipelli.github.io/rust-mastery-path/level-1/07-error-handling-basics/)
 
 ## Exercise
 

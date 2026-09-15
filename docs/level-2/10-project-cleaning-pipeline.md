@@ -1,3 +1,7 @@
+---
+description: "Project — Data Cleaning & Reporting Pipeline — A small end-to-end project combining everything from Level 2: cleaning messy real-world data with dplyr and…"
+---
+
 # 10 · Project — Data Cleaning & Reporting Pipeline
 
 A small end-to-end project combining everything from Level 2: cleaning

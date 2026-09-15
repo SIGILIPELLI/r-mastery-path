@@ -1,3 +1,7 @@
+---
+description: "Data Frames Deep Dive (dplyr) — Base R's df[rows, columns] syntax gets tedious fast once you're chaining several operations together. dplyr is the…"
+---
+
 # 01 · Data Frames Deep Dive (dplyr)
 
 Base R's `df[rows, columns]` syntax gets tedious fast once you're chaining

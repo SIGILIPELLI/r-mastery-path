@@ -1,3 +1,7 @@
+---
+description: "Data Cleaning — Real datasets are messy: missing values, inconsistent categories, numbers stored as text, impossible outliers. Cleaning isn't a detour…"
+---
+
 # 02 · Data Cleaning
 
 Real datasets are messy: missing values, inconsistent categories, numbers

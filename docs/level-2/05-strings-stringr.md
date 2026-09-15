@@ -1,3 +1,7 @@
+---
+description: "Working with Strings (stringr) — Base R has string functions (nchar(), substr(), paste(), grepl()), but their argument order and naming are famously…"
+---
+
 # 05 · Working with Strings (stringr)
 
 Base R has string functions (`nchar()`, `substr()`, `paste()`, `grepl()`),

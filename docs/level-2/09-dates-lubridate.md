@@ -1,3 +1,7 @@
+---
+description: "Working with Dates (lubridate) — All four accept a wide range of separators (-, /, spaces, no separator at all) automatically — ymd('20240315') and…"
+---
+
 # 09 · Working with Dates (lubridate)
 
 Base R's `Date` and `POSIXct` classes can parse and compute with dates, but

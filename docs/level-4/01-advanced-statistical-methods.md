@@ -1,3 +1,7 @@
+---
+description: "Advanced Statistical Methods — Level 3 covered lm() and glm() for modeling a single relationship. Real analysis work often needs to compare more than two…"
+---
+
 # 01 · Advanced Statistical Methods
 
 Level 3 covered `lm()` and `glm()` for modeling a single relationship.

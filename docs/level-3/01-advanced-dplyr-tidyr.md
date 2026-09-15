@@ -1,3 +1,7 @@
+---
+description: "Advanced dplyr/tidyr — Level 1-2 covered single-table dplyr verbs and basic pivot_longer() / pivot_wider(). Real analysis work almost always involves more…"
+---
+
 # 01 · Advanced dplyr/tidyr
 
 Level 1-2 covered single-table `dplyr` verbs and basic `pivot_longer()` /

@@ -1,3 +1,7 @@
+---
+description: "Testing at Scale & CI — A handful of stopifnot() calls in a script is fine for a one-off analysis. A codebase with dozens of functions that other people…"
+---
+
 # 04 · Testing at Scale & CI
 
 A handful of `stopifnot()` calls in a script is fine for a one-off

@@ -1,3 +1,7 @@
+---
+description: "Vectors & Basic Data Structures — R vectors are indexed starting at 1, not 0 — a frequent source of off-by-one bugs for people coming from Python…"
+---
+
 # 05 · Vectors & Basic Data Structures
 
 ## Creating vectors
@@ -196,6 +200,12 @@ input lengths and index into each input modulo its own length as they
 loop. A `list()`, by contrast, doesn't store elements contiguously by
 value — it's a vector of *pointers* to arbitrary SEXPs, which is exactly
 why a list can mix types and hold other vectors/lists without coercion.
+
+## 🔀 See this in another language
+
+- [MATLAB — Functions in MATLAB](https://sigilipelli.github.io/matlab-mastery-path/level-1/05-functions/)
+- [JavaScript — Arrays & Objects](https://sigilipelli.github.io/javascript-mastery-path/level-1/05-arrays-objects/)
+- [Rust — Structs & Enums](https://sigilipelli.github.io/rust-mastery-path/level-1/05-structs-enums/)
 
 ## Exercise
 

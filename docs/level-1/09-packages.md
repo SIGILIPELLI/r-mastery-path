@@ -1,3 +1,7 @@
+---
+description: "Packages — An R package bundles functions, data, and documentation for reuse — the same idea as a Python package or an npm module. Base R ships with a…"
+---
+
 # 09 · Packages
 
 ## What a package is
@@ -152,6 +156,12 @@ other and the package's own private helpers even though users can't.
 `pkg::fun` bypasses the search path entirely and looks `fun` up directly in
 `pkg`'s namespace — which is why it works even for functions the package
 chose not to export via `:::`, and why it never breaks due to masking.
+
+## 🔀 See this in another language
+
+- [MATLAB — Basic Numerical Methods](https://sigilipelli.github.io/matlab-mastery-path/level-1/09-numerical-methods/)
+- [JavaScript — Modules & npm Basics](https://sigilipelli.github.io/javascript-mastery-path/level-1/09-modules-npm/)
+- [Rust — Modules & Cargo Project Structure](https://sigilipelli.github.io/rust-mastery-path/level-1/09-modules-cargo/)
 
 ## Exercise
 

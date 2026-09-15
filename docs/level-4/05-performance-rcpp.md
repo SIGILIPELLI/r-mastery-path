@@ -1,3 +1,7 @@
+---
+description: "Performance Optimization (Rcpp Intro) — R's vectorized functions are already fast — sum(), colSums(), matrix multiplication all drop into compiled C under…"
+---
+
 # 05 · Performance Optimization (Rcpp Intro)
 
 R's vectorized functions are already fast — `sum()`, `colSums()`,

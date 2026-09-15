@@ -1,3 +1,7 @@
+---
+description: "Project: Shiny Sales Dashboard — This project pulls together everything from Level 3: dplyr filtering and grouping, ggplot2 for the chart, and shiny for…"
+---
+
 # 10 · Project: Shiny Sales Dashboard
 
 This project pulls together everything from Level 3: `dplyr` filtering

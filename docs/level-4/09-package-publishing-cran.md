@@ -1,3 +1,7 @@
+---
+description: "Package Publishing (CRAN Basics) — A package is what turns 'a folder of R scripts I reuse' into something installable with install.packages() and citable…"
+---
+
 # 09 · Package Publishing (CRAN Basics)
 
 A package is what turns "a folder of R scripts I reuse" into something

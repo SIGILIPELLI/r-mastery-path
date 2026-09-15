@@ -1,3 +1,7 @@
+---
+description: "Reproducible Research Practices — 'It works on my machine' is an especially expensive failure in research: a result nobody else can regenerate is a result…"
+---
+
 # 06 · Reproducible Research Practices
 
 "It works on my machine" is an especially expensive failure in

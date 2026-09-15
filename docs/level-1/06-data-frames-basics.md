@@ -1,3 +1,7 @@
+---
+description: "Data Frames Basics — A data frame is R's core structure for tabular data — rows are observations, columns are variables, and each column is a vector (so…"
+---
+
 # 06 · Data Frames Basics
 
 ## What a data frame is
@@ -155,6 +159,12 @@ homogeneous atomic vector — assigning a character into a numeric column
 triggers the same coercion rules as any other vector, silently converting
 the whole column. `str()` works by walking this list-of-vectors structure
 and reporting each element's class and a peek at its values.
+
+## 🔀 See this in another language
+
+- [MATLAB — Plotting & Visualization Basics](https://sigilipelli.github.io/matlab-mastery-path/level-1/06-plotting-basics/)
+- [JavaScript — Strings & Template Literals](https://sigilipelli.github.io/javascript-mastery-path/level-1/06-strings-template-literals/)
+- [Rust — Collections (Vec, String, HashMap)](https://sigilipelli.github.io/rust-mastery-path/level-1/06-collections/)
 
 ## Exercise
 
