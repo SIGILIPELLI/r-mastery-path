@@ -198,6 +198,10 @@ why a package that only compiles on your machine (an undeclared system
 library dependency, e.g.) fails silently for users elsewhere until CRAN's
 build farm catches it and the maintainer is notified to fix it.
 
+## 🔀 See this in another language
+
+- [Dart — 08 · Package Publishing (pub.dev)](https://sigilipelli.github.io/dart-mastery-path/level-4/08-package-publishing/)
+
 ## Exercise
 
 1. Add a second exported function to the example package (e.g.

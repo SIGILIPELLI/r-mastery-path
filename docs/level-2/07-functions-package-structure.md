@@ -204,6 +204,10 @@ static-analysis pass: roxygen2 parses those comments plus the function
 signature they precede and generates `.Rd` files in `man/`, entirely
 independent of whether the function's *code* runs correctly.
 
+## 🔀 See this in another language
+
+- [MATLAB — 04 · Writing Robust Functions](https://sigilipelli.github.io/matlab-mastery-path/level-2/04-robust-functions/)
+
 ## Exercise
 
 Take the `classify_bmi()` function from

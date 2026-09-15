@@ -202,6 +202,12 @@ why Rcpp idioms favor `clone()`ing input vectors you intend to mutate,
 mirroring the exact copy-on-modify discipline R itself enforces at the
 R level.
 
+## 🔀 See this in another language
+
+- [TypeScript — 07 · Performance Optimization](https://sigilipelli.github.io/typescript-mastery-path/level-4/07-performance-optimization/)
+- [C — 03 · Performance Optimization & Profiling](https://sigilipelli.github.io/c-mastery-path/level-4/03-performance-profiling/)
+- [C# — 05 · Performance Profiling & Optimization](https://sigilipelli.github.io/csharp-mastery-path/level-4/05-performance-profiling/)
+
 ## Exercise
 
 1. Write an Rcpp function `running_max_cpp(x)` that returns a vector

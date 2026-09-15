@@ -217,6 +217,10 @@ that only affects *display* math (converting to local wall-clock time
 using the IANA tz database compiled into your OS) — the stored instant in
 time never changes when you change its printed time zone.
 
+## 🔀 See this in another language
+
+- [PHP — 09 · Working with Dates](https://sigilipelli.github.io/php-mastery-path/level-2/09-working-with-dates/)
+
 ## Exercise
 
 Given `signups <- c("2024-01-05", "2024-01-20", "2024-02-14", "2024-02-15",
