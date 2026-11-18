@@ -159,9 +159,9 @@ chose not to export via `:::`, and why it never breaks due to masking.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Basic Numerical Methods](https://sigilipelli.github.io/matlab-mastery-path/level-1/09-numerical-methods/)
-- [JavaScript — Modules & npm Basics](https://sigilipelli.github.io/javascript-mastery-path/level-1/09-modules-npm/)
-- [Rust — Modules & Cargo Project Structure](https://sigilipelli.github.io/rust-mastery-path/level-1/09-modules-cargo/)
+- [MATLAB — Basic Numerical Methods](https://learnmasterypath.com/matlab-mastery-path/level-1/09-numerical-methods/)
+- [JavaScript — Modules & npm Basics](https://learnmasterypath.com/javascript-mastery-path/level-1/09-modules-npm/)
+- [Rust — Modules & Cargo Project Structure](https://learnmasterypath.com/rust-mastery-path/level-1/09-modules-cargo/)
 
 ## Exercise
 

@@ -206,7 +206,7 @@ independent of whether the function's *code* runs correctly.
 
 ## 🔀 See this in another language
 
-- [MATLAB — 04 · Writing Robust Functions](https://sigilipelli.github.io/matlab-mastery-path/level-2/04-robust-functions/)
+- [MATLAB — 04 · Writing Robust Functions](https://learnmasterypath.com/matlab-mastery-path/level-2/04-robust-functions/)
 
 ## Exercise
 

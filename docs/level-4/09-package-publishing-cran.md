@@ -200,7 +200,7 @@ build farm catches it and the maintainer is notified to fix it.
 
 ## 🔀 See this in another language
 
-- [Dart — 08 · Package Publishing (pub.dev)](https://sigilipelli.github.io/dart-mastery-path/level-4/08-package-publishing/)
+- [Dart — 08 · Package Publishing (pub.dev)](https://learnmasterypath.com/dart-mastery-path/level-4/08-package-publishing/)
 
 ## Exercise
 

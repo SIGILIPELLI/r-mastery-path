@@ -152,9 +152,9 @@ more predictable on large files.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Working with Data Files](https://sigilipelli.github.io/matlab-mastery-path/level-1/07-data-files/)
-- [JavaScript — DOM Basics & Events](https://sigilipelli.github.io/javascript-mastery-path/level-1/07-dom-events/)
-- [Rust — Error Handling Basics (Option, Result)](https://sigilipelli.github.io/rust-mastery-path/level-1/07-error-handling-basics/)
+- [MATLAB — Working with Data Files](https://learnmasterypath.com/matlab-mastery-path/level-1/07-data-files/)
+- [JavaScript — DOM Basics & Events](https://learnmasterypath.com/javascript-mastery-path/level-1/07-dom-events/)
+- [Rust — Error Handling Basics (Option, Result)](https://learnmasterypath.com/rust-mastery-path/level-1/07-error-handling-basics/)
 
 ## Exercise
 

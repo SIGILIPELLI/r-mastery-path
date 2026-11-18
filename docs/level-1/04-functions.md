@@ -208,9 +208,9 @@ until `y` is touched.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Control Flow](https://sigilipelli.github.io/matlab-mastery-path/level-1/04-control-flow/)
-- [JavaScript — Functions & Scope](https://sigilipelli.github.io/javascript-mastery-path/level-1/04-functions-scope/)
-- [Rust — Functions](https://sigilipelli.github.io/rust-mastery-path/level-1/04-functions/)
+- [MATLAB — Control Flow](https://learnmasterypath.com/matlab-mastery-path/level-1/04-control-flow/)
+- [JavaScript — Functions & Scope](https://learnmasterypath.com/javascript-mastery-path/level-1/04-functions-scope/)
+- [Rust — Functions](https://learnmasterypath.com/rust-mastery-path/level-1/04-functions/)
 
 ## Exercise
 

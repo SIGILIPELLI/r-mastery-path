@@ -190,9 +190,9 @@ one interpreter dispatch and thousands.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Vectors & Matrix Operations](https://sigilipelli.github.io/matlab-mastery-path/level-1/03-vectors-matrices/)
-- [JavaScript — Control Flow](https://sigilipelli.github.io/javascript-mastery-path/level-1/03-control-flow/)
-- [Rust — Control Flow](https://sigilipelli.github.io/rust-mastery-path/level-1/03-control-flow/)
+- [MATLAB — Vectors & Matrix Operations](https://learnmasterypath.com/matlab-mastery-path/level-1/03-vectors-matrices/)
+- [JavaScript — Control Flow](https://learnmasterypath.com/javascript-mastery-path/level-1/03-control-flow/)
+- [Rust — Control Flow](https://learnmasterypath.com/rust-mastery-path/level-1/03-control-flow/)
 
 ## Exercise
 

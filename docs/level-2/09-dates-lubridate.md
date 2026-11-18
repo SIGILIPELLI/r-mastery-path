@@ -219,7 +219,7 @@ time never changes when you change its printed time zone.
 
 ## 🔀 See this in another language
 
-- [PHP — 09 · Working with Dates](https://sigilipelli.github.io/php-mastery-path/level-2/09-working-with-dates/)
+- [PHP — 09 · Working with Dates](https://learnmasterypath.com/php-mastery-path/level-2/09-working-with-dates/)
 
 ## Exercise
 

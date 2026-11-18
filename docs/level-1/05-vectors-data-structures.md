@@ -203,9 +203,9 @@ why a list can mix types and hold other vectors/lists without coercion.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Functions in MATLAB](https://sigilipelli.github.io/matlab-mastery-path/level-1/05-functions/)
-- [JavaScript — Arrays & Objects](https://sigilipelli.github.io/javascript-mastery-path/level-1/05-arrays-objects/)
-- [Rust — Structs & Enums](https://sigilipelli.github.io/rust-mastery-path/level-1/05-structs-enums/)
+- [MATLAB — Functions in MATLAB](https://learnmasterypath.com/matlab-mastery-path/level-1/05-functions/)
+- [JavaScript — Arrays & Objects](https://learnmasterypath.com/javascript-mastery-path/level-1/05-arrays-objects/)
+- [Rust — Structs & Enums](https://learnmasterypath.com/rust-mastery-path/level-1/05-structs-enums/)
 
 ## Exercise
 

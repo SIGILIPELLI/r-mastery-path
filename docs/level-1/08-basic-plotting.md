@@ -160,9 +160,9 @@ recorded calls, not simply scaled as an image.
 
 ## 🔀 See this in another language
 
-- [MATLAB — String & Text Processing](https://sigilipelli.github.io/matlab-mastery-path/level-1/08-string-text-processing/)
-- [JavaScript — Error Handling Basics](https://sigilipelli.github.io/javascript-mastery-path/level-1/08-error-handling/)
-- [Rust — Pattern Matching](https://sigilipelli.github.io/rust-mastery-path/level-1/08-pattern-matching/)
+- [MATLAB — String & Text Processing](https://learnmasterypath.com/matlab-mastery-path/level-1/08-string-text-processing/)
+- [JavaScript — Error Handling Basics](https://learnmasterypath.com/javascript-mastery-path/level-1/08-error-handling/)
+- [Rust — Pattern Matching](https://learnmasterypath.com/rust-mastery-path/level-1/08-pattern-matching/)
 
 ## Exercise
 

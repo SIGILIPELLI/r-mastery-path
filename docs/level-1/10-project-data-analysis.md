@@ -203,6 +203,6 @@ Completing this project means you're ready for **Level 2 · Intermediate**.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Project — Data Analysis & Plotting Script](https://sigilipelli.github.io/matlab-mastery-path/level-1/10-project-data-analysis/)
-- [JavaScript — Project — Browser To-Do List App](https://sigilipelli.github.io/javascript-mastery-path/level-1/10-project-todo-app/)
-- [Rust — Project — CLI To-Do App](https://sigilipelli.github.io/rust-mastery-path/level-1/10-project-todo-cli/)
+- [MATLAB — Project — Data Analysis & Plotting Script](https://learnmasterypath.com/matlab-mastery-path/level-1/10-project-data-analysis/)
+- [JavaScript — Project — Browser To-Do List App](https://learnmasterypath.com/javascript-mastery-path/level-1/10-project-todo-app/)
+- [Rust — Project — CLI To-Do App](https://learnmasterypath.com/rust-mastery-path/level-1/10-project-todo-cli/)

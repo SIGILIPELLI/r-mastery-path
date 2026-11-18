@@ -179,9 +179,9 @@ console, refreshing after each top-level statement completes.
 
 ## 🔀 See this in another language
 
-- [MATLAB — What Is MATLAB?](https://sigilipelli.github.io/matlab-mastery-path/level-1/01-what-is-matlab/)
-- [JavaScript — Setup & First Program](https://sigilipelli.github.io/javascript-mastery-path/level-1/01-setup/)
-- [Rust — Setup & First Program](https://sigilipelli.github.io/rust-mastery-path/level-1/01-setup/)
+- [MATLAB — What Is MATLAB?](https://learnmasterypath.com/matlab-mastery-path/level-1/01-what-is-matlab/)
+- [JavaScript — Setup & First Program](https://learnmasterypath.com/javascript-mastery-path/level-1/01-setup/)
+- [Rust — Setup & First Program](https://learnmasterypath.com/rust-mastery-path/level-1/01-setup/)
 
 ## Exercise
 

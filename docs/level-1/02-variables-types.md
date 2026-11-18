@@ -209,9 +209,9 @@ internal C coercion routines rather than any R-level `if` logic.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Variables & Basic Data Types](https://sigilipelli.github.io/matlab-mastery-path/level-1/02-variables-types/)
-- [JavaScript — Variables, Data Types & Operators](https://sigilipelli.github.io/javascript-mastery-path/level-1/02-variables-data-types/)
-- [Rust — Variables, Types & Ownership Basics](https://sigilipelli.github.io/rust-mastery-path/level-1/02-variables-types-ownership/)
+- [MATLAB — Variables & Basic Data Types](https://learnmasterypath.com/matlab-mastery-path/level-1/02-variables-types/)
+- [JavaScript — Variables, Data Types & Operators](https://learnmasterypath.com/javascript-mastery-path/level-1/02-variables-data-types/)
+- [Rust — Variables, Types & Ownership Basics](https://learnmasterypath.com/rust-mastery-path/level-1/02-variables-types-ownership/)
 
 ## Exercise
 

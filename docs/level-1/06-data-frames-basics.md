@@ -162,9 +162,9 @@ and reporting each element's class and a peek at its values.
 
 ## 🔀 See this in another language
 
-- [MATLAB — Plotting & Visualization Basics](https://sigilipelli.github.io/matlab-mastery-path/level-1/06-plotting-basics/)
-- [JavaScript — Strings & Template Literals](https://sigilipelli.github.io/javascript-mastery-path/level-1/06-strings-template-literals/)
-- [Rust — Collections (Vec, String, HashMap)](https://sigilipelli.github.io/rust-mastery-path/level-1/06-collections/)
+- [MATLAB — Plotting & Visualization Basics](https://learnmasterypath.com/matlab-mastery-path/level-1/06-plotting-basics/)
+- [JavaScript — Strings & Template Literals](https://learnmasterypath.com/javascript-mastery-path/level-1/06-strings-template-literals/)
+- [Rust — Collections (Vec, String, HashMap)](https://learnmasterypath.com/rust-mastery-path/level-1/06-collections/)
 
 ## Exercise
 
