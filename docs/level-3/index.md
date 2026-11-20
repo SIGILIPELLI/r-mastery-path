@@ -1,3 +1,7 @@
+---
+description: "Level 3 (Advanced) of the free R Mastery Path: Advanced dplyr/tidyr, Advanced ggplot2, Statistical Modeling (lm/glm), R Markdown for Reports, Shiny Basics…"
+---
+
 # Level 3 · Advanced
 
 ## Modules

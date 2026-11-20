@@ -1,3 +1,7 @@
+---
+description: "Level 2 (Intermediate) of the free R Mastery Path: Data Frames Deep Dive (dplyr), Data Cleaning, Apply Family Functions, ggplot2 Basics, Working with…"
+---
+
 # Level 2 · Intermediate
 
 ## Modules

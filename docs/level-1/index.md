@@ -1,3 +1,7 @@
+---
+description: "Level 1 (Entry) of the free R Mastery Path. Get comfortable reading and writing R, understand its core data structures, and ship a small working data…"
+---
+
 # Level 1 · Entry <span class="level-badge">Foundations</span>
 
 Goal: get comfortable reading and writing R, understand its core data

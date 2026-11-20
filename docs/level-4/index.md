@@ -1,3 +1,7 @@
+---
+description: "Level 4 (Master) of the free R Mastery Path: Advanced Statistical Methods, Production R with plumber, Shiny at Scale (Modules), Testing at Scale & CI…"
+---
+
 # Level 4 · Master
 
 ## Modules
